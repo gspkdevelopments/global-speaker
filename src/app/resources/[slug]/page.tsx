@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/resources/[slug]"
     title: resource.title,
     description: resource.description,
     alternates: { canonical: `/resources/${resource.slug}` },
-    openGraph: { type: "article", title: resource.title, description: resource.description, publishedTime: resource.publishedAt, modifiedTime: resource.updatedAt },
+    openGraph: { type: "article", title: resource.title, description: resource.description, url: `/resources/${resource.slug}`, publishedTime: resource.publishedAt, modifiedTime: resource.updatedAt },
   };
 }
 
