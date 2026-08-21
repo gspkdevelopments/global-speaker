@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { resources } from "@/content/resources";
 import { siteConfig } from "@/config/site";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.siteUrl;
   const staticRoutes = ["", "/learn", "/learn/english", "/learn/french", "/learn/spanish", "/method", "/resources", "/culture", "/locations", "/locations/tulum", "/about", "/language-map"];
