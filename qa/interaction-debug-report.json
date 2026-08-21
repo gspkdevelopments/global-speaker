@@ -1,0 +1,162 @@
+{
+  "phase": "interaction-debug",
+  "baseUrl": "http://127.0.0.1:3100",
+  "generatedAt": "2026-08-21T05:20:32.943Z",
+  "screenshots": [],
+  "interactions": [
+    {
+      "name": "language selector",
+      "passed": false,
+      "detail": "“I want to express myself with more ease.”"
+    },
+    {
+      "name": "life environment expansion",
+      "passed": false,
+      "detail": "Home expands by click"
+    },
+    {
+      "name": "mobile menu open",
+      "passed": false,
+      "detail": "Menu is visible"
+    },
+    {
+      "name": "mobile menu accessible label",
+      "passed": false,
+      "detail": "Open navigation"
+    },
+    {
+      "name": "mobile menu initial focus",
+      "passed": false,
+      "detail": "First navigation link receives focus"
+    },
+    {
+      "name": "mobile menu close",
+      "passed": true,
+      "detail": "Menu closes from its toggle"
+    },
+    {
+      "name": "mobile menu focus return",
+      "passed": true,
+      "detail": "Focus returns to the menu toggle"
+    },
+    {
+      "name": "resource language filter",
+      "passed": false,
+      "detail": "French filter returns three resources"
+    },
+    {
+      "name": "resource search",
+      "passed": false,
+      "detail": "Search narrows the filtered result"
+    },
+    {
+      "name": "language map completion",
+      "passed": false,
+      "detail": "Completion state appears"
+    },
+    {
+      "name": "reduced motion",
+      "passed": true,
+      "detail": "Reduced-motion CSS disables smooth scrolling"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "WebSocket connection to 'ws://127.0.0.1:3100/_next/hmr?id=cVwrUl_F-XV9h9rXRNqpi' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "WebSocket connection to 'ws://127.0.0.1:3100/_next/hmr?id=jqQDJlr-_aBH7TbXVd9H1' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+    },
+    {
+      "url": "http://127.0.0.1:3100/resources",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/resources",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/resources",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/resources",
+      "text": "WebSocket connection to 'ws://127.0.0.1:3100/_next/hmr?id=TDiYgABwMxcLg0qrh1VOb' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+    },
+    {
+      "url": "http://127.0.0.1:3100/language-map",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/language-map",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/language-map",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/language-map",
+      "text": "WebSocket connection to 'ws://127.0.0.1:3100/_next/hmr?id=be0xPrn3H0biDuaRgvZZ0' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+    },
+    {
+      "url": "http://127.0.0.1:3100/language-map",
+      "text": "WebSocket connection to 'ws://127.0.0.1:3100/_next/hmr?id=be0xPrn3H0biDuaRgvZZ0' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+    },
+    {
+      "url": "http://127.0.0.1:3100/language-map",
+      "text": "WebSocket connection to 'ws://127.0.0.1:3100/_next/hmr?id=be0xPrn3H0biDuaRgvZZ0' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+    },
+    {
+      "url": "http://127.0.0.1:3100/language-map",
+      "text": "WebSocket connection to 'ws://127.0.0.1:3100/_next/hmr?id=be0xPrn3H0biDuaRgvZZ0' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+    },
+    {
+      "url": "http://127.0.0.1:3100/language-map?language=English&reason=Work&environments=At+work+with+international+guests.&interests=Music+and+local+culture.&challenge=Speaking&level=Beginner&name=QA+Learner&contact=Email&contactDetail=qa%40example.com",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "url": "http://127.0.0.1:3100/",
+      "text": "WebSocket connection to 'ws://127.0.0.1:3100/_next/hmr?id=WKwnR73ILysusPKIqmRnh' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+    }
+  ],
+  "pageErrors": []
+}

@@ -1,0 +1,75 @@
+{
+  "phase": "final-interactions",
+  "baseUrl": "http://127.0.0.1:3100",
+  "generatedAt": "2026-08-21T05:24:00.282Z",
+  "screenshots": [],
+  "interactions": [
+    {
+      "name": "language selector",
+      "passed": true,
+      "detail": "“Je veux trouver ma propre voix.”"
+    },
+    {
+      "name": "life environment expansion",
+      "passed": true,
+      "detail": "Home expands by click"
+    },
+    {
+      "name": "desktop Learn dropdown",
+      "passed": true,
+      "detail": "Language submenu appears on hover"
+    },
+    {
+      "name": "mobile menu open",
+      "passed": true,
+      "detail": "Menu is visible"
+    },
+    {
+      "name": "mobile menu accessible label",
+      "passed": true,
+      "detail": "Close navigation"
+    },
+    {
+      "name": "mobile menu initial focus",
+      "passed": true,
+      "detail": "First navigation link receives focus"
+    },
+    {
+      "name": "mobile menu close",
+      "passed": true,
+      "detail": "Menu closes from its toggle"
+    },
+    {
+      "name": "mobile menu focus return",
+      "passed": true,
+      "detail": "Focus returns to the menu toggle"
+    },
+    {
+      "name": "desktop active navigation",
+      "passed": true,
+      "detail": "Resources link exposes the current page"
+    },
+    {
+      "name": "resource language filter",
+      "passed": true,
+      "detail": "French filter returns three resources"
+    },
+    {
+      "name": "resource search",
+      "passed": true,
+      "detail": "Search narrows the filtered result"
+    },
+    {
+      "name": "language map completion",
+      "passed": true,
+      "detail": "Completion state appears"
+    },
+    {
+      "name": "reduced motion",
+      "passed": true,
+      "detail": "Reduced-motion CSS disables smooth scrolling"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": []
+}
