@@ -22,12 +22,14 @@ export default function HomePage() {
           </div>
           <div className="hero__visual" aria-label="Language grows from everyday experience">
             <div className="hero-collage">
+              <aside className="hero-collage__note"><span>Field note · 001</span><b>Language appears before the lesson does.</b></aside>
               <div className="hero-collage__sun" />
-              <div className="hero-collage__window"><span>THE WORLD<br />AROUND YOU</span></div>
+              <div className="hero-collage__window"><span>A CAFÉ · A QUESTION<br />A MOMENT TO ANSWER</span></div>
               <div className="hero-collage__figure"><i /><b /></div>
               <p><span>01</span> Notice<br /><span>02</span> Connect<br /><span>03</span> Express</p>
-              <strong>life → language</strong>
+              <strong>experience → language</strong>
             </div>
+            <p className="hero__visual-caption"><span>Observed in life</span> The world is already giving you something to say.</p>
           </div>
         </div>
         <div className="container"><LanguageSelector /></div>

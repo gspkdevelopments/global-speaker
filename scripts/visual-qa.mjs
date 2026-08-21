@@ -5,6 +5,7 @@ import { chromium } from "playwright";
 const phase = process.argv[2] ?? "current";
 const interactionsOnly = process.argv.includes("--interactions-only");
 const baseUrl = process.env.QA_BASE_URL ?? "http://127.0.0.1:3100";
+const expectedWhatsappNumber = process.env.QA_EXPECT_WHATSAPP_NUMBER ?? "";
 const outputDirectory = path.resolve("qa", "screenshots", phase);
 await mkdir(outputDirectory, { recursive: true });
 
@@ -23,6 +24,7 @@ const routeCaptures = [
   ["article-see-look-watch", "/resources/see-look-or-watch"],
   ["culture", "/culture"],
   ["tulum", "/locations/tulum"],
+  ["about", "/about"],
   ["language-map", "/language-map"],
 ];
 
@@ -39,7 +41,7 @@ const pageErrors = [];
 const screenshotResults = [];
 
 async function createPage(width, height, reducedMotion = "no-preference") {
-  const context = await browser.newContext({ viewport: { width, height }, reducedMotion });
+  const context = await browser.newContext({ viewport: { width, height }, reducedMotion, permissions: ["clipboard-read", "clipboard-write"] });
   const page = await context.newPage();
   page.on("console", (message) => {
     if (message.type() === "error") consoleErrors.push({ url: page.url(), text: message.text() });
@@ -81,6 +83,7 @@ function record(name, passed, detail) {
   record("life environment expansion", (await page.getByRole("button", { name: /01 Home/ }).getAttribute("aria-expanded")) === "true", "Home expands by click");
   await page.getByRole("link", { name: "Learn", exact: true }).hover();
   record("desktop Learn dropdown", await page.locator(".language-menu").isVisible(), "Language submenu appears on hover");
+  record("Start Learning qualification path", (await page.getByRole("link", { name: /Start learning/i }).getAttribute("href")) === "/language-map", "Start Learning routes to the Language Map");
   await context.close();
 }
 
@@ -126,15 +129,57 @@ function record(name, passed, detail) {
   await page.getByLabel("Where do you use or want to use the language?").fill("At work with international guests.");
   await page.getByLabel("What interests you?").fill("Music and local culture.");
   await page.locator('.choice-group label:has(input[value="Speaking"])').click();
-  await page.locator('.choice-group label:has(input[value="Beginner"])').click();
-  await page.getByLabel("Name", { exact: true }).fill("QA Learner");
-  await page.getByLabel("Preferred contact method").selectOption({ label: "Email" });
-  await page.getByLabel("Where should we contact you?").fill("qa@example.com");
+  await page.locator('.choice-group label:has(input[value="Confidence"])').click();
+  await page.locator('.choice-group label:has(input[value="Intermediate"])').click();
+  await page.getByLabel("What should we call you?").fill("QA Learner");
   await page.getByRole("button", { name: /Create my Language Map/ }).click();
-  record("language map completion", await page.getByText("Your life has already given us a direction.").isVisible(), "Completion state appears");
+  record("language map completion", await page.getByRole("heading", { name: "Your Language Map is ready." }).isVisible(), "Personal completion artifact appears");
+  record("completion heading focus", await page.getByRole("heading", { name: "Your Language Map is ready." }).evaluate((element) => document.activeElement === element), "Keyboard focus moves to the completion heading");
+  record("completion summary", await page.getByText("Speaking · Confidence").isVisible() && await page.getByText("At work with international guests.").isVisible(), "Selected answers are readable in the completed map");
+  record("completion mobile overflow", await page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth), "Completed map has no page-level horizontal overflow");
+  const whatsappLink = page.getByRole("link", { name: /Continue on WhatsApp/ });
+  if (await whatsappLink.count()) {
+    const href = await whatsappLink.getAttribute("href");
+    const message = href ? new URL(href).searchParams.get("text") : "";
+    const expectedDestination = expectedWhatsappNumber ? `https://wa.me/${expectedWhatsappNumber}?text=` : "https://wa.me/";
+    record("WhatsApp handoff", href?.startsWith(expectedDestination) === true && message?.includes("Language: English") === true && message?.includes("Focus: Speaking, Confidence") === true, `Prefilled WhatsApp URL targets ${expectedWhatsappNumber || "the configured number"} and contains the completed map`);
+  } else {
+    record("WhatsApp graceful fallback", await page.getByRole("button", { name: /WhatsApp setup pending/ }).isDisabled(), "Missing production number leaves the map usable without a broken link");
+  }
+  await page.getByRole("button", { name: /Copy my Language Map/ }).click();
+  await page.waitForFunction(() => document.querySelector(".copy-feedback")?.textContent?.includes("has been copied") === true);
+  record("copy Language Map", (await page.locator(".copy-feedback").textContent())?.includes("has been copied") === true, "Accessible copied feedback appears");
   if (!interactionsOnly) {
-    await page.screenshot({ path: path.join(outputDirectory, "language-map-complete-mobile.png") });
+    await page.addStyleTag({ content: ".site-header, .skip-link { display: none !important; }" });
+    await page.locator(".map-completion").screenshot({ path: path.join(outputDirectory, "language-map-complete-mobile.png") });
     screenshotResults.push({ name: "language-map-complete-mobile", route: "/language-map", width: 390, height: 844, status: 200 });
+  }
+  await page.getByRole("button", { name: "Edit my Language Map" }).click();
+  record("edit Language Map", await page.getByLabel("What should we call you?").inputValue() === "QA Learner" && await page.locator('input[value="English"]').isChecked(), "Edit restores the completed answers");
+  await context.close();
+}
+
+{
+  const { context, page } = await createPage(1440, 900);
+  await navigate(page, "/language-map");
+  await page.locator('.choice-group label:has(input[value="Spanish"])').click();
+  await page.locator('.choice-group label:has(input[value="Living abroad"])').click();
+  await page.getByLabel("Where do you use or want to use the language?").fill("Daily life in Mexico and conversations with neighbors.");
+  await page.getByLabel("What interests you?").fill("Food, music, and everyday culture.");
+  await page.locator('.choice-group label:has(input[value="Understanding"])').click();
+  await page.locator('.choice-group label:has(input[value="Pronunciation"])').click();
+  await page.locator('.choice-group label:has(input[value="Basic"])').click();
+  await page.getByLabel("What should we call you?").fill("Desktop Learner");
+  await page.getByRole("button", { name: /Create my Language Map/ }).click();
+  const desktopWhatsappLink = page.getByRole("link", { name: /Continue on WhatsApp/ });
+  const desktopHref = await desktopWhatsappLink.getAttribute("href");
+  const desktopMessage = desktopHref ? new URL(desktopHref).searchParams.get("text") : "";
+  record("desktop completion", await page.getByRole("heading", { name: "Your Language Map is ready." }).isVisible() && desktopMessage?.includes("Language: Spanish") === true, "Desktop completion artifact and personalized handoff are visible");
+  record("completion desktop overflow", await page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth), "Desktop completed map has no page-level horizontal overflow");
+  if (!interactionsOnly) {
+    await page.addStyleTag({ content: ".site-header, .skip-link { display: none !important; }" });
+    await page.locator(".map-completion").screenshot({ path: path.join(outputDirectory, "language-map-complete-desktop.png") });
+    screenshotResults.push({ name: "language-map-complete-desktop", route: "/language-map", width: 1440, height: 900, status: 200 });
   }
   await context.close();
 }

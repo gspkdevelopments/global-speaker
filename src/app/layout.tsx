@@ -1,17 +1,30 @@
 import type { Metadata } from "next";
+import { Newsreader, Work_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { siteConfig } from "@/config/site";
 import "./globals.css";
 
-const siteUrl = "https://globalspeaker.world";
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-editorial",
+  display: "swap",
+});
+
+const workSans = Work_Sans({
+  subsets: ["latin"],
+  variable: "--font-interface",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(siteConfig.siteUrl),
   title: { default: "Global Speaker — Language begins with your life", template: "%s — Global Speaker" },
   description: "Personalized English, French, and Spanish learning built around your real life, work, interests, and world.",
   keywords: ["language learning", "English", "French", "Spanish", "language resources", "Tulum"],
   alternates: { canonical: "/" },
-  openGraph: { type: "website", locale: "en", url: siteUrl, siteName: "Global Speaker", title: "Global Speaker — Speak more of the world", description: "Learn the language through the life you already live." },
+  openGraph: { type: "website", locale: "en", url: siteConfig.siteUrl, siteName: "Global Speaker", title: "Global Speaker — Speak more of the world", description: "Learn the language through the life you already live." },
   twitter: { card: "summary_large_image", title: "Global Speaker", description: "Language begins with your life." },
 };
 
@@ -19,14 +32,14 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Global Speaker",
-  url: siteUrl,
+  url: siteConfig.siteUrl,
   description: "Personalized English, French, and Spanish language development rooted in real life.",
   areaServed: ["Tulum", "Riviera Maya", "Online"],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${newsreader.variable} ${workSans.variable}`}>
       <body>
         <a className="skip-link" href="#main-content">Skip to content</a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }} />

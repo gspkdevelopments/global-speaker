@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ResourceCard } from "@/components/cards";
+import { ResourceCard, ResourceCover } from "@/components/cards";
 import { ButtonLink } from "@/components/ui";
 import { getResource, resources } from "@/content/resources";
+import { siteConfig } from "@/config/site";
 
 export function generateStaticParams() { return resources.map((resource) => ({ slug: resource.slug })); }
 
@@ -28,7 +29,7 @@ export default async function ResourceArticlePage({ params }: PageProps<"/resour
     "@context": "https://schema.org", "@type": "Article", headline: resource.title, description: resource.description,
     datePublished: resource.publishedAt, dateModified: resource.updatedAt, author: { "@type": "Organization", name: resource.author },
     publisher: { "@type": "Organization", name: "Global Speaker" }, inLanguage: resource.language === "french" ? "fr" : resource.language === "spanish" ? "es" : "en",
-    mainEntityOfPage: `https://globalspeaker.world/resources/${resource.slug}`,
+    mainEntityOfPage: `${siteConfig.siteUrl}/resources/${resource.slug}`,
   };
   return (
     <article className={`article article--${resource.accent}`}>
@@ -42,7 +43,7 @@ export default async function ResourceArticlePage({ params }: PageProps<"/resour
             <p className="article-header__subtitle">{resource.subtitle}</p>
           </div>
           <div className="article-header__aside">
-            <div className="article-header__monogram" aria-hidden="true">{resource.languageLabel.slice(0, 2).toUpperCase()}</div>
+            <ResourceCover resource={resource} className="article-header__cover" />
             <dl><div><dt>Reading time</dt><dd>{resource.readingTime}</dd></div><div><dt>Level</dt><dd>{resource.difficulty}</dd></div><div><dt>Topic</dt><dd>{resource.category}</dd></div></dl>
           </div>
         </div>

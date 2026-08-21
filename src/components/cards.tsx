@@ -15,12 +15,22 @@ export function LanguageCard({ language }: { language: LanguageProfile }) {
   );
 }
 
+export function ResourceCover({ resource, index = 0, className = "" }: { resource: Resource; index?: number; className?: string }) {
+  return (
+    <div className={`resource-card__field ${className}`.trim()} aria-hidden="true">
+      <span className="resource-card__field-label">{resource.languageLabel} · {resource.category}</span>
+      <div className="resource-card__field-words">{resource.cover.map((word) => <b key={word}>{word}</b>)}</div>
+      <i>{String(index + 1).padStart(2, "0")}</i>
+    </div>
+  );
+}
+
 export function ResourceCard({ resource, index, featured = false }: { resource: Resource; index?: number; featured?: boolean }) {
   return (
     <article className={`resource-card resource-card--${resource.accent}${featured ? " resource-card--featured" : ""}`}>
       <Link href={`/resources/${resource.slug}`} aria-label={`Read ${resource.title}`}>
         {featured ? <span className="resource-card__featured-label">Featured lesson</span> : null}
-        <div className="resource-card__field" aria-hidden="true"><span>{resource.languageLabel.slice(0, 2).toUpperCase()}</span><i>{String((index ?? 0) + 1).padStart(2, "0")}</i></div>
+        <ResourceCover resource={resource} index={index} />
         <div className="resource-card__meta"><Tag accent={resource.accent}>{resource.languageLabel}</Tag><span>{resource.readingTime}</span><span>{resource.difficulty}</span></div>
         <h3>{resource.title}</h3>
         <p>{resource.subtitle}</p>
