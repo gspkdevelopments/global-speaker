@@ -26,6 +26,10 @@ const routeCaptures = [
   ["tulum", "/locations/tulum"],
   ["about", "/about"],
   ["language-map", "/language-map"],
+  ["professional", "/professional"],
+  ["professional-hospitality", "/professional/hospitality"],
+  ["professional-restaurants-bars", "/professional/restaurants-bars"],
+  ["professional-lesson", "/professional/hospitality/welcoming-a-guest-naturally-in-english"],
 ];
 
 for (const [name, route] of routeCaptures) {
@@ -85,6 +89,31 @@ function record(name, passed, detail) {
   record("desktop Learn dropdown", await page.locator(".language-menu").isVisible(), "Language submenu appears on hover");
   const startLearningHref = await page.getByRole("link", { name: /Start learning/i }).getAttribute("href");
   record("Start Learning qualification path", startLearningHref?.replace(/\/$/, "") === "/language-map", "Start Learning routes to the Language Map");
+  await context.close();
+}
+
+{
+  const { context, page } = await createPage(1440, 900);
+  await navigate(page, "/");
+  const hospitalityRow = page.getByRole("link", { name: /Hospitality.*Reception/ });
+  record("homepage professional link", (await hospitalityRow.getAttribute("href")) === "/professional/hospitality", "Hospitality row routes to its learning path");
+  await hospitalityRow.click();
+  await page.waitForURL("**/professional/hospitality");
+  record("hospitality path", await page.getByRole("heading", { name: "Hospitality", exact: true }).isVisible(), "Hospitality curriculum is reachable from the homepage");
+  const lessonLink = page.locator(".lesson-links a").first();
+  record("available lesson link", await lessonLink.count() > 0, "Available lessons are visible inside the path");
+  await lessonLink.click();
+  await page.waitForURL("**/professional/hospitality/welcoming-a-guest-naturally-in-english");
+  record("lesson navigation", await page.getByRole("link", { name: "Path overview", exact: true }).isVisible(), "Lesson exposes path overview navigation");
+  record("lesson goal", await page.getByText(/By the end of this lesson/).isVisible(), "Lesson communication goal is rendered");
+  await context.close();
+}
+
+{
+  const { context, page } = await createPage(390, 844);
+  await navigate(page, "/professional/hospitality");
+  record("professional mobile overflow", await page.evaluate(() => document.documentElement.scrollWidth === document.documentElement.clientWidth), "Hospitality path has no page-level horizontal overflow");
+  record("mobile module sequence", await page.locator(".module-row").count() === 7, "Hospitality modules remain a simple vertical sequence");
   await context.close();
 }
 

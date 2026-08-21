@@ -6,6 +6,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 const links = [
   ["Learn", "/learn"],
+  ["Professional", "/professional"],
   ["Method", "/method"],
   ["Resources", "/resources"],
   ["Culture", "/culture"],
@@ -55,7 +56,7 @@ export function MobileNav() {
         <div className="mobile-nav__panel" id="mobile-menu">
           <nav aria-label="Mobile navigation">
             {links.map(([label, href], index) => {
-              const active = pathname === href || (href === "/learn" && pathname.startsWith("/learn/")) || (href === "/resources" && pathname.startsWith("/resources/"));
+              const active = pathname === href || (href === "/learn" && pathname.startsWith("/learn/")) || (href === "/resources" && pathname.startsWith("/resources/")) || (href === "/professional" && pathname.startsWith("/professional/"));
               return (
               <Fragment key={href}>
               <Link ref={index === 0 ? firstLinkRef : undefined} className={active ? "is-active" : ""} aria-current={active ? "page" : undefined} key={href} href={href} onClick={() => setOpen(false)}>

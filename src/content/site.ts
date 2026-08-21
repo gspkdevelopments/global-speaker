@@ -64,13 +64,6 @@ export const lifeEnvironments = [
   { name: "Culture", index: "06", examples: ["Politeness", "Identity", "Film", "Traditions", "Social cues", "Meaning"] },
 ];
 
-export const professionalPaths = [
-  { title: "Hospitality", code: "HSP", needs: ["Reception", "Guest requests", "Recommendations", "Problems", "Directions", "Check-in / check-out"] },
-  { title: "Restaurants & Bars", code: "F&B", needs: ["Welcoming", "Menus", "Preferences", "Recommendations", "Service recovery", "Small talk"] },
-  { title: "Tourism", code: "TRV", needs: ["Itineraries", "Local knowledge", "Safety", "Storytelling", "Questions", "Group guidance"] },
-  { title: "Real Estate", code: "REA", needs: ["Viewings", "Needs analysis", "Features", "Negotiation", "Follow-up", "Trust"] },
-  { title: "Sales", code: "SLS", needs: ["Discovery", "Value", "Objections", "Presentations", "Negotiation", "Closing"] },
-  { title: "Remote Work", code: "RMT", needs: ["Meetings", "Updates", "Collaboration", "Feedback", "Boundaries", "Written clarity"] },
-];
+export { professionalPaths } from "@/content/professional";
 
 export const methodSteps = ["PERCEIVE", "THINK", "CONNECT", "EXPRESS", "INTERACT"];

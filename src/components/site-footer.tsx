@@ -23,6 +23,7 @@ export function SiteFooter() {
         <div className="footer-column">
           <p>Explore</p>
           <Link href="/method">The method</Link>
+          <Link href="/professional">Professional paths</Link>
           <Link href="/resources">Resources</Link>
           <Link href="/culture">Culture</Link>
           <Link href="/locations/tulum">Tulum</Link>

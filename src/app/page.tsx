@@ -67,11 +67,12 @@ export default function HomePage() {
           </div>
           <div className="professional-list">
             {professionalPaths.map((path, index) => (
-              <article className="professional-card" key={path.title}>
-                <div><span>{String(index + 1).padStart(2, "0")}</span><i>{path.code}</i></div>
+              <Link className="professional-card" href={`/professional/${path.slug}`} key={path.title}>
+                <div><span>{String(index + 1).padStart(2, "0")}</span><i>{path.shortCode}</i></div>
                 <h3>{path.title}</h3>
-                <p>{path.needs.join(" · ")}</p>
-              </article>
+                <p>{path.communicationNeeds.join(" · ")}</p>
+                <b aria-hidden="true">↗</b>
+              </Link>
             ))}
           </div>
         </div>
