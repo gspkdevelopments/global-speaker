@@ -27,6 +27,7 @@ export function ResourceExplorer({ resources }: { resources: Resource[] }) {
       <div className="filter-row" aria-label="Filter resources">
         {filters.map((item) => <button type="button" className={filter === item ? "is-active" : ""} aria-pressed={filter === item} onClick={() => setFilter(item)} key={item}>{item}</button>)}
       </div>
+      <p className="filter-row__hint" aria-hidden="true">Swipe to see all topics →</p>
       <p className="results-count" aria-live="polite">{visible.length} {visible.length === 1 ? "resource" : "resources"}</p>
       {visible.length ? <div className="resource-grid resource-grid--library">{visible.map((resource, index) => <ResourceCard resource={resource} index={index} featured={index === 0} key={resource.slug} />)}</div> : <div className="empty-state"><p>No exact match yet.</p><span>Try a language, a broader idea, or build a Language Map around the question.</span></div>}
     </div>

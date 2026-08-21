@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { contactConfig } from "@/config/site";
+import { buildWhatsAppUrl } from "@/lib/language-map";
 
 export function SiteFooter() {
+  const directWhatsappUrl = buildWhatsAppUrl(contactConfig.whatsappNumber, "Hi! I'd like to learn more about Global Speaker.");
   return (
     <footer className="site-footer">
       <div className="container site-footer__top">
@@ -20,6 +23,7 @@ export function SiteFooter() {
         <div className="footer-column">
           <p>Explore</p>
           <Link href="/method">The method</Link>
+          <Link href="/professional">Professional paths</Link>
           <Link href="/resources">Resources</Link>
           <Link href="/culture">Culture</Link>
           <Link href="/locations/tulum">Tulum</Link>
@@ -28,7 +32,8 @@ export function SiteFooter() {
           <p>Begin</p>
           <Link href="/about">About</Link>
           <Link href="/language-map">Language Map</Link>
-          <a href="mailto:hello@globalspeaker.world">Email us</a>
+          {directWhatsappUrl ? <a href={directWhatsappUrl}>WhatsApp</a> : null}
+          {contactConfig.email ? <a href={`mailto:${contactConfig.email}`}>Email us</a> : null}
         </div>
       </div>
       <div className="container site-footer__bottom">

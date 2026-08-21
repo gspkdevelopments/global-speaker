@@ -20,6 +20,7 @@ export type Resource = {
   updatedAt: string;
   author: string;
   accent: "blue" | "wine" | "terracotta";
+  cover: string[];
   sections: ResourceSection[];
   exercise: string[];
   related: string[];
@@ -41,6 +42,7 @@ export const resources: Resource[] = [
     updatedAt: "2026-08-20",
     author: "Global Speaker",
     accent: "blue",
+    cover: ["See", "Look", "Watch"],
     sections: [
       {
         heading: "See: what reaches your eyes",
@@ -70,7 +72,7 @@ export const resources: Resource[] = [
     title: "Hear vs Listen",
     subtitle: "Sound arrives. Attention is a choice.",
     description: "Understand the difference between receiving a sound and giving it your attention.",
-    language: "english", languageLabel: "English", category: "Words & Meaning", difficulty: "Basic", readingTime: "4 min", publishedAt: "2026-08-18", updatedAt: "2026-08-18", author: "Global Speaker", accent: "blue",
+    language: "english", languageLabel: "English", category: "Words & Meaning", difficulty: "Basic", readingTime: "4 min", publishedAt: "2026-08-18", updatedAt: "2026-08-18", author: "Global Speaker", accent: "blue", cover: ["Hear", "Listen"],
     sections: [{ heading: "From sound to attention", body: "We hear sounds that reach us; we listen when we deliberately attend to them.", examples: ["I can hear music outside.", "Listen to the rhythm of this sentence."] }],
     exercise: ["What can you hear right now?", "What do you choose to listen to carefully?"], related: ["see-look-or-watch"],
   },
@@ -79,7 +81,7 @@ export const resources: Resource[] = [
     title: "Think, Believe and Feel",
     subtitle: "Opinion, conviction, and intuition are not the same.",
     description: "Choose a more precise English verb when you share what is happening inside you.",
-    language: "english", languageLabel: "English", category: "Expression", difficulty: "Intermediate", readingTime: "5 min", publishedAt: "2026-08-15", updatedAt: "2026-08-15", author: "Global Speaker", accent: "blue",
+    language: "english", languageLabel: "English", category: "Expression", difficulty: "Intermediate", readingTime: "5 min", publishedAt: "2026-08-15", updatedAt: "2026-08-15", author: "Global Speaker", accent: "blue", cover: ["Think", "Believe", "Feel"],
     sections: [{ heading: "Name the source", body: "Think often introduces an opinion, believe a stronger conviction, and feel an intuitive or emotional response.", examples: ["I think the café closes at eight.", "I believe practice changes confidence.", "I feel this is the right moment."] }],
     exercise: ["Share one thought, one belief, and one feeling about learning."], related: ["see-look-or-watch"],
   },
@@ -88,7 +90,7 @@ export const resources: Resource[] = [
     title: "Savoir vs Connaître",
     subtitle: "Two kinds of knowing in French.",
     description: "Distinguish knowing a fact or skill from being familiar with a person, place, or subject.",
-    language: "french", languageLabel: "Français", category: "Words & Meaning", difficulty: "Basic", readingTime: "5 min", publishedAt: "2026-08-16", updatedAt: "2026-08-16", author: "Global Speaker", accent: "wine",
+    language: "french", languageLabel: "Français", category: "Words & Meaning", difficulty: "Basic", readingTime: "5 min", publishedAt: "2026-08-16", updatedAt: "2026-08-16", author: "Global Speaker", accent: "wine", cover: ["Savoir", "Connaître"],
     sections: [{ heading: "What kind of knowledge?", body: "Savoir works with facts and abilities; connaître expresses familiarity.", examples: ["Je sais nager.", "Je connais bien ce quartier."] }], exercise: ["Name one fact you know and one place you know well."], related: ["tu-vs-vous"],
   },
   {
@@ -96,7 +98,7 @@ export const resources: Resource[] = [
     title: "Tu vs Vous",
     subtitle: "Grammar becomes a social relationship.",
     description: "Notice how familiarity, respect, context, and culture shape a small French pronoun.",
-    language: "french", languageLabel: "Français", category: "People", difficulty: "Basic", readingTime: "6 min", publishedAt: "2026-08-12", updatedAt: "2026-08-12", author: "Global Speaker", accent: "wine", culture: true,
+    language: "french", languageLabel: "Français", category: "People", difficulty: "Basic", readingTime: "6 min", publishedAt: "2026-08-12", updatedAt: "2026-08-12", author: "Global Speaker", accent: "wine", cover: ["Tu", "Vous"], culture: true,
     sections: [{ heading: "More than formality", body: "The choice is relational. Age, work, region, hierarchy, tone, and mutual comfort all matter.", examples: ["On peut se tutoyer ?", "Comment allez-vous ?"] }], exercise: ["In which relationships would you wait before using tu?"], related: ["savoir-vs-connaitre"],
   },
   {
@@ -104,7 +106,7 @@ export const resources: Resource[] = [
     title: "Express Opinions Naturally in French",
     subtitle: "Move beyond je pense que.",
     description: "A compact set of expressions for certainty, nuance, hesitation, and disagreement.",
-    language: "french", languageLabel: "Français", category: "Expression", difficulty: "Intermediate", readingTime: "5 min", publishedAt: "2026-08-10", updatedAt: "2026-08-10", author: "Global Speaker", accent: "wine",
+    language: "french", languageLabel: "Français", category: "Expression", difficulty: "Intermediate", readingTime: "5 min", publishedAt: "2026-08-10", updatedAt: "2026-08-10", author: "Global Speaker", accent: "wine", cover: ["À mon avis…", "Je dirais…"],
     sections: [{ heading: "Give your opinion texture", body: "Small framing phrases show how strongly you hold an idea.", examples: ["À mon avis…", "J’ai l’impression que…", "Je ne suis pas tout à fait d’accord."] }], exercise: ["Choose a film and express three levels of certainty about it."], related: ["tu-vs-vous"],
   },
   {
@@ -112,7 +114,7 @@ export const resources: Resource[] = [
     title: "Ser vs Estar",
     subtitle: "Identity, condition, and the way you frame reality.",
     description: "Learn the distinction through real situations instead of memorizing permanent versus temporary.",
-    language: "spanish", languageLabel: "Español", category: "Grammar in Context", difficulty: "Basic", readingTime: "6 min", publishedAt: "2026-08-17", updatedAt: "2026-08-17", author: "Global Speaker", accent: "terracotta",
+    language: "spanish", languageLabel: "Español", category: "Grammar in Context", difficulty: "Basic", readingTime: "6 min", publishedAt: "2026-08-17", updatedAt: "2026-08-17", author: "Global Speaker", accent: "terracotta", cover: ["Ser", "Estar"],
     sections: [{ heading: "A more useful question", body: "Ask whether you are identifying something or describing its state in a situation.", examples: ["La playa es tranquila.", "La playa está tranquila hoy."] }], exercise: ["Describe one place generally, then describe how it is today."], related: ["what-ahorita-means-in-mexico"],
   },
   {
@@ -120,7 +122,7 @@ export const resources: Resource[] = [
     title: "What “Ahorita” Actually Means in Mexico",
     subtitle: "A tiny word with a cultural sense of time.",
     description: "Context, tone, and shared expectations decide whether ahorita means now, soon, or later.",
-    language: "spanish", languageLabel: "Español", category: "Culture", difficulty: "Basic", readingTime: "5 min", publishedAt: "2026-08-14", updatedAt: "2026-08-14", author: "Global Speaker", accent: "terracotta", culture: true,
+    language: "spanish", languageLabel: "Español", category: "Culture", difficulty: "Basic", readingTime: "5 min", publishedAt: "2026-08-14", updatedAt: "2026-08-14", author: "Global Speaker", accent: "terracotta", cover: ["Now?", "Soon?", "Later?"], culture: true,
     sections: [{ heading: "Listen beyond the dictionary", body: "Ahorita can intensify ahora, soften a commitment, or leave timing open. Tone and situation carry the real meaning.", examples: ["Ahorita voy.", "Lo hacemos ahorita.", "Ahorita no puedo."] }], exercise: ["Listen for ahorita today. What did the situation suggest?"], related: ["everyday-mexican-spanish"],
   },
   {
@@ -128,7 +130,7 @@ export const resources: Resource[] = [
     title: "Spanish You Actually Hear in Everyday Mexico",
     subtitle: "A field guide to ordinary connection.",
     description: "Useful expressions that make more sense when you understand the situation around them.",
-    language: "spanish", languageLabel: "Español", category: "Daily Life", difficulty: "Basic", readingTime: "7 min", publishedAt: "2026-08-08", updatedAt: "2026-08-08", author: "Global Speaker", accent: "terracotta", culture: true,
+    language: "spanish", languageLabel: "Español", category: "Daily Life", difficulty: "Basic", readingTime: "7 min", publishedAt: "2026-08-08", updatedAt: "2026-08-08", author: "Global Speaker", accent: "terracotta", cover: ["¿Mande?", "Provecho", "Qué padre"], culture: true,
     sections: [{ heading: "Meaning lives in use", body: "Everyday phrases are social tools: they soften, connect, acknowledge, and keep an interaction moving.", examples: ["Qué padre.", "Mande?", "Provecho."] }], exercise: ["Choose one expression and notice when people use it this week."], related: ["what-ahorita-means-in-mexico", "ser-vs-estar"],
   },
 ];

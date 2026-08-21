@@ -1,0 +1,308 @@
+{
+  "phase": "wo004-final",
+  "baseUrl": "http://127.0.0.1:3100",
+  "generatedAt": "2026-08-21T16:32:12.131Z",
+  "screenshots": [
+    {
+      "name": "home-mobile",
+      "route": "/",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "home-tablet",
+      "route": "/",
+      "width": 768,
+      "height": 1024,
+      "status": 200
+    },
+    {
+      "name": "home-laptop",
+      "route": "/",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "home-large-desktop",
+      "route": "/",
+      "width": 1920,
+      "height": 1080,
+      "status": 200
+    },
+    {
+      "name": "english-mobile",
+      "route": "/learn/english",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "english-desktop",
+      "route": "/learn/english",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "french-mobile",
+      "route": "/learn/french",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "french-desktop",
+      "route": "/learn/french",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "spanish-mobile",
+      "route": "/learn/spanish",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "spanish-desktop",
+      "route": "/learn/spanish",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "resources-mobile",
+      "route": "/resources",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "resources-desktop",
+      "route": "/resources",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "article-see-look-watch-mobile",
+      "route": "/resources/see-look-or-watch",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "article-see-look-watch-desktop",
+      "route": "/resources/see-look-or-watch",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "culture-mobile",
+      "route": "/culture",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "culture-desktop",
+      "route": "/culture",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "tulum-mobile",
+      "route": "/locations/tulum",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "tulum-desktop",
+      "route": "/locations/tulum",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "about-mobile",
+      "route": "/about",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "about-desktop",
+      "route": "/about",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "language-map-mobile",
+      "route": "/language-map",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "language-map-desktop",
+      "route": "/language-map",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "mobile-navigation-open",
+      "route": "/",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "resources-french-search-desktop",
+      "route": "/resources",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    },
+    {
+      "name": "language-map-complete-mobile",
+      "route": "/language-map",
+      "width": 390,
+      "height": 844,
+      "status": 200
+    },
+    {
+      "name": "language-map-complete-desktop",
+      "route": "/language-map",
+      "width": 1440,
+      "height": 900,
+      "status": 200
+    }
+  ],
+  "interactions": [
+    {
+      "name": "language selector",
+      "passed": true,
+      "detail": "“Je veux trouver ma propre voix.”"
+    },
+    {
+      "name": "life environment expansion",
+      "passed": true,
+      "detail": "Home expands by click"
+    },
+    {
+      "name": "desktop Learn dropdown",
+      "passed": true,
+      "detail": "Language submenu appears on hover"
+    },
+    {
+      "name": "Start Learning qualification path",
+      "passed": true,
+      "detail": "Start Learning routes to the Language Map"
+    },
+    {
+      "name": "mobile menu open",
+      "passed": true,
+      "detail": "Menu is visible"
+    },
+    {
+      "name": "mobile language paths",
+      "passed": true,
+      "detail": "English, Français, and Español are exposed in the menu"
+    },
+    {
+      "name": "mobile menu accessible label",
+      "passed": true,
+      "detail": "Close navigation"
+    },
+    {
+      "name": "mobile menu initial focus",
+      "passed": true,
+      "detail": "First navigation link receives focus"
+    },
+    {
+      "name": "mobile menu close",
+      "passed": true,
+      "detail": "Menu closes from its toggle"
+    },
+    {
+      "name": "mobile menu focus return",
+      "passed": true,
+      "detail": "Focus returns to the menu toggle"
+    },
+    {
+      "name": "desktop active navigation",
+      "passed": true,
+      "detail": "Resources link exposes the current page"
+    },
+    {
+      "name": "resource language filter",
+      "passed": true,
+      "detail": "French filter returns three resources"
+    },
+    {
+      "name": "resource search",
+      "passed": true,
+      "detail": "Search narrows the filtered result"
+    },
+    {
+      "name": "language map completion",
+      "passed": true,
+      "detail": "Personal completion artifact appears"
+    },
+    {
+      "name": "completion heading focus",
+      "passed": true,
+      "detail": "Keyboard focus moves to the completion heading"
+    },
+    {
+      "name": "completion summary",
+      "passed": true,
+      "detail": "Selected answers are readable in the completed map"
+    },
+    {
+      "name": "completion mobile overflow",
+      "passed": true,
+      "detail": "Completed map has no page-level horizontal overflow"
+    },
+    {
+      "name": "WhatsApp handoff",
+      "passed": true,
+      "detail": "Prefilled WhatsApp URL targets 529984015977 and contains the completed map"
+    },
+    {
+      "name": "copy Language Map",
+      "passed": true,
+      "detail": "Accessible copied feedback appears"
+    },
+    {
+      "name": "edit Language Map",
+      "passed": true,
+      "detail": "Edit restores the completed answers"
+    },
+    {
+      "name": "desktop completion",
+      "passed": true,
+      "detail": "Desktop completion artifact and personalized handoff are visible"
+    },
+    {
+      "name": "completion desktop overflow",
+      "passed": true,
+      "detail": "Desktop completed map has no page-level horizontal overflow"
+    },
+    {
+      "name": "reduced motion",
+      "passed": true,
+      "detail": "Reduced-motion CSS disables smooth scrolling"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": []
+}

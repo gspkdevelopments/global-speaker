@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
+  ["Professional", "/professional"],
   ["Method", "/method"],
   ["Resources", "/resources"],
   ["Culture", "/culture"],
@@ -11,7 +12,7 @@ const links = [
 ];
 
 function isCurrent(pathname: string, href: string) {
-  return pathname === href || (href === "/resources" && pathname.startsWith("/resources/"));
+  return pathname === href || (href === "/resources" && pathname.startsWith("/resources/")) || (href === "/professional" && pathname.startsWith("/professional/"));
 }
 
 export function DesktopNav() {
