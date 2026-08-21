@@ -83,7 +83,8 @@ function record(name, passed, detail) {
   record("life environment expansion", (await page.getByRole("button", { name: /01 Home/ }).getAttribute("aria-expanded")) === "true", "Home expands by click");
   await page.getByRole("link", { name: "Learn", exact: true }).hover();
   record("desktop Learn dropdown", await page.locator(".language-menu").isVisible(), "Language submenu appears on hover");
-  record("Start Learning qualification path", (await page.getByRole("link", { name: /Start learning/i }).getAttribute("href")) === "/language-map", "Start Learning routes to the Language Map");
+  const startLearningHref = await page.getByRole("link", { name: /Start learning/i }).getAttribute("href");
+  record("Start Learning qualification path", startLearningHref?.replace(/\/$/, "") === "/language-map", "Start Learning routes to the Language Map");
   await context.close();
 }
 
