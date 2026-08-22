@@ -1,31 +1,58 @@
 # Global Speaker Curriculum Corpus v1 — Authored Content
 
-This directory is the canonical home for the authored Curriculum Corpus v1 lesson prose.
+This directory is the runtime home for the authored Curriculum Corpus v1 lesson prose.
 
-Expected layout:
+## Source and materialization
+
+The committed authored source is stored as a deterministic, gzip-compressed base64 payload under:
 
 ```text
-src/content/curriculum/
+src/content/curriculum-packed/v1/
+├── part-01.b64
+├── …
+└── part-11.b64
+```
+
+`npm run corpus:unpack` reconstructs the 175 canonical UTF-8 Markdown lessons into the generated runtime tree:
+
+```text
+src/content/curriculum/generated/
 ├── english/
-│   ├── batch-01/
-│   └── … batch-10/
 ├── spanish/
-│   ├── batch-11/
-│   └── … batch-17/
 └── french/
-    ├── batch-18/
-    └── … batch-23/
 ```
 
-Each lesson is a UTF-8 Markdown file named by canonical lesson ID, for example:
+Generated Markdown is intentionally ignored by Git. `predev`, `prebuild`, and `qa:corpus` materialize it automatically, so the committed packed source and the frozen canonical inventory remain the auditable inputs.
+
+Each generated lesson is named by canonical lesson ID, for example:
 
 ```text
-eng-home-greet-housemate-v1.md
+src/content/curriculum/generated/english/eng-home-greet-housemate-v1.md
 ```
 
-The frozen graph/taxonomy inventory remains `src/content/curriculum-corpus-v1.json`. Authored Markdown must preserve its canonical ID, slug, title, language, level, lesson type, primary environment, communication functions, and learning objective.
+## Canonical contract
 
-Required lesson anatomy:
+The frozen graph/taxonomy inventory remains `src/content/curriculum-corpus-v1.json`. Authored Markdown must preserve its canonical:
+
+- ID
+- slug
+- title
+- language
+- level
+- lesson type
+- primary environment
+- communication functions
+- learning objective
+
+Run:
+
+```bash
+npm run qa:corpus
+```
+
+The validation gate requires exactly 175 authored objects, rejects missing/extra/duplicate IDs, checks the canonical metadata above, and verifies the complete lesson anatomy.
+
+## Required lesson anatomy
 
 1. Context
 2. Objective
