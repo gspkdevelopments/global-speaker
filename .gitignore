@@ -18,6 +18,9 @@
 /.next/
 /out/
 
+# generated curriculum materialization
+/src/content/curriculum/generated/
+
 # production
 /build
 
