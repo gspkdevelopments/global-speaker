@@ -4,12 +4,16 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "corpus:unpack": "node scripts/unpack-authored-corpus.mjs",
+    "predev": "npm run corpus:unpack",
     "dev": "next dev",
+    "prebuild": "npm run corpus:unpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "node --test tests/*.test.mts",
-    "qa:visual": "node scripts/visual-qa.mjs"
+    "qa:visual": "node scripts/visual-qa.mjs",
+    "qa:corpus": "npm run corpus:unpack && node scripts/validate-authored-corpus.mjs"
   },
   "dependencies": {
     "next": "16.3.1",
