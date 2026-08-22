@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { resources } from "@/content/resources";
 import { professionalPaths } from "@/content/professional";
+import { getAuthoredLessonParams } from "@/content/curriculum-authored-v1";
 import { siteConfig } from "@/config/site";
 
 export const dynamic = "force-static";
@@ -9,9 +10,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.siteUrl;
   const staticRoutes = ["", "/learn", "/learn/english", "/learn/french", "/learn/spanish", "/method", "/resources", "/culture", "/locations", "/locations/tulum", "/about", "/language-map", "/professional"];
   const professionalRoutes = professionalPaths.flatMap((path) => [{ url: `${baseUrl}/professional/${path.slug}`, lastModified: new Date("2026-08-21"), changeFrequency: "monthly" as const, priority: 0.8 }, ...path.modules.flatMap((module) => module.lessons.map((lesson) => ({ url: `${baseUrl}/professional/${path.slug}/${lesson.slug}`, lastModified: new Date("2026-08-21"), changeFrequency: "monthly" as const, priority: 0.7 })))]);
+  const curriculumRoutes = getAuthoredLessonParams().map(({ language, slug }) => ({ url: `${baseUrl}/learn/${language}/${slug}`, lastModified: new Date("2026-08-22"), changeFrequency: "monthly" as const, priority: 0.7 }));
   return [
     ...staticRoutes.map((route) => ({ url: `${baseUrl}${route}`, lastModified: new Date("2026-08-20"), changeFrequency: route === "" ? "weekly" as const : "monthly" as const, priority: route === "" ? 1 : 0.8 })),
     ...professionalRoutes,
+    ...curriculumRoutes,
     ...resources.map((resource) => ({ url: `${baseUrl}/resources/${resource.slug}`, lastModified: new Date(resource.updatedAt), changeFrequency: "monthly" as const, priority: 0.7 })),
   ];
 }
