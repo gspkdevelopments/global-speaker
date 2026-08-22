@@ -9,8 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --test tests/*.test.mts",
-    "qa:visual": "node scripts/visual-qa.mjs",
-    "qa:corpus": "node scripts/validate-authored-corpus-v1.mjs"
+    "qa:visual": "node scripts/visual-qa.mjs"
   },
   "dependencies": {
     "next": "16.3.1",
