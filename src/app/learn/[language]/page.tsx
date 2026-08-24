@@ -7,97 +7,28 @@ import { ButtonLink, CTASection, PageIntro, SectionHeading } from "@/components/
 import { languages, type LanguageKey } from "@/content/site";
 import { resources } from "@/content/resources";
 import { getCurriculumLessons, type CurriculumLanguage } from "@/lib/curriculum";
+import { getInterfaceLocale } from "@/lib/interface-locale-server";
 
-const cefrOrder = ["A1", "A2", "B1", "B2", "C1", "C2"] as const;
-const lifeAreas = [
-  { slug: "home", title: "Home", note: "Routines · space · shared life" },
-  { slug: "work", title: "Work", note: "Tasks · clients · decisions" },
-  { slug: "people", title: "People", note: "Connection · opinions · boundaries" },
-  { slug: "travel", title: "Travel", note: "Arrival · movement · problem-solving" },
-  { slug: "interests", title: "Interests", note: "Music · technology · food · ideas" },
-  { slug: "culture", title: "Culture", note: "Register · humor · implication" },
-] as const;
+const cefrOrder=["A1","A2","B1","B2","C1","C2"] as const;
+const areaSlugs=["home","work","people","travel","interests","culture"] as const;
+const areaCopy={
+ en:{home:["Home","Routines · space · shared life"],work:["Work","Tasks · clients · decisions"],people:["People","Connection · opinions · boundaries"],travel:["Travel","Arrival · movement · problem-solving"],interests:["Interests","Music · technology · food · ideas"],culture:["Culture","Register · humor · implication"]},
+ es:{home:["Hogar","Rutinas · espacio · vida compartida"],work:["Trabajo","Tareas · clientes · decisiones"],people:["Personas","Conexión · opiniones · límites"],travel:["Viajes","Llegada · movimiento · resolución de problemas"],interests:["Intereses","Música · tecnología · comida · ideas"],culture:["Cultura","Registro · humor · implicación"]},
+ fr:{home:["Maison","Routines · espace · vie partagée"],work:["Travail","Tâches · clients · décisions"],people:["Personnes","Lien · opinions · limites"],travel:["Voyage","Arrivée · déplacements · résolution de problèmes"],interests:["Centres d’intérêt","Musique · technologie · cuisine · idées"],culture:["Culture","Registre · humour · implicite"]}
+} as const;
+const hubCopy={
+ en:{built:"Built around you",builtTitle:"Learn what your life asks for.",builtIntro:"A useful language path follows situations before syllabi.",lifeEye:"Your life · six doors",lifeTitle:"Enter the curriculum from where you already are.",lifeIntro:"The same canonical lesson graph can be explored by level or by the part of life where the language becomes useful.",connected:"connected lessons",explore:"Explore this life area",movement:"The learning movement",movementTitle:"From experience to interaction.",movementIntro:"Notice what is happening. Build the thought. Connect it to language. Say it. Use it with someone.",method:"See how the method works",curriculum:"Curriculum",path:"A real path, not a pile of exercises.",pathIntro:"Move through the CEFR levels with lessons rooted in home, work, people, travel, interests, and culture.",lessons:"lessons",exploreLang:"Explore",idea:"Start with one useful idea.",resources:"All free resources",next:"Your next step",make:"Make this language part of your world.",cta:"Tell us where you want to use it, what matters to you, and what feels difficult now."},
+ es:{built:"Construido alrededor de ti",builtTitle:"Aprende lo que tu vida te pide.",builtIntro:"Una ruta útil sigue situaciones reales antes que temarios abstractos.",lifeEye:"Tu vida · seis puertas",lifeTitle:"Entra al currículo desde donde ya estás.",lifeIntro:"El mismo grafo canónico de lecciones puede explorarse por nivel o por la parte de tu vida donde el idioma se vuelve útil.",connected:"lecciones conectadas",explore:"Explorar esta área de vida",movement:"El movimiento de aprendizaje",movementTitle:"De la experiencia a la interacción.",movementIntro:"Observa lo que ocurre. Construye la idea. Conéctala con el idioma. Dila. Úsala con alguien.",method:"Ver cómo funciona el método",curriculum:"Currículo",path:"Una ruta real, no una pila de ejercicios.",pathIntro:"Avanza por los niveles del MCER con lecciones ancladas en hogar, trabajo, personas, viajes, intereses y cultura.",lessons:"lecciones",exploreLang:"Explorar",idea:"Empieza con una idea útil.",resources:"Todos los recursos gratuitos",next:"Tu siguiente paso",make:"Haz que este idioma forme parte de tu mundo.",cta:"Cuéntanos dónde quieres usarlo, qué te importa y qué se siente difícil ahora."},
+ fr:{built:"Construit autour de vous",builtTitle:"Apprenez ce que votre vie vous demande.",builtIntro:"Un parcours utile suit les situations avant les programmes abstraits.",lifeEye:"Votre vie · six portes",lifeTitle:"Entrez dans le programme depuis l’endroit où vous êtes déjà.",lifeIntro:"Le même graphe canonique de leçons peut être exploré par niveau ou par la partie de votre vie où la langue devient utile.",connected:"leçons associées",explore:"Explorer ce domaine de vie",movement:"Le mouvement d’apprentissage",movementTitle:"De l’expérience à l’interaction.",movementIntro:"Observez ce qui se passe. Construisez l’idée. Reliez-la à la langue. Dites-la. Utilisez-la avec quelqu’un.",method:"Voir comment fonctionne la méthode",curriculum:"Programme",path:"Un vrai parcours, pas une pile d’exercices.",pathIntro:"Progressez dans les niveaux du CECR avec des leçons ancrées dans la maison, le travail, les personnes, le voyage, les intérêts et la culture.",lessons:"leçons",exploreLang:"Explorer",idea:"Commencez par une idée utile.",resources:"Toutes les ressources gratuites",next:"Votre prochaine étape",make:"Faites entrer cette langue dans votre monde.",cta:"Dites-nous où vous voulez l’utiliser, ce qui compte pour vous et ce qui vous semble difficile aujourd’hui."}
+} as const;
 
-export function generateStaticParams() { return languages.map((language) => ({ language: language.key })); }
+export function generateStaticParams(){return languages.map((language)=>({language:language.key}));}
+export async function generateMetadata({params}:PageProps<"/learn/[language]">):Promise<Metadata>{const {language}=await params;const profile=languages.find((item)=>item.key===language);if(!profile)return{};return{title:`Learn ${profile.name}`,description:profile.description,alternates:{canonical:`/learn/${profile.key}`}};}
 
-export async function generateMetadata({ params }: PageProps<"/learn/[language]">): Promise<Metadata> {
-  const { language } = await params;
-  const profile = languages.find((item) => item.key === language);
-  if (!profile) return {};
-  return { title: `Learn ${profile.name}`, description: profile.description, alternates: { canonical: `/learn/${profile.key}` } };
-}
-
-export default async function LanguageHubPage({ params }: PageProps<"/learn/[language]">) {
-  const { language } = await params;
-  const profile = languages.find((item) => item.key === language);
-  if (!profile) notFound();
-  const related = resources.filter((resource) => resource.language === profile.key).slice(0, 3);
-  const curriculum = getCurriculumLessons(profile.key as CurriculumLanguage);
-  const curriculumByLevel = cefrOrder
-    .map((level) => ({ level, lessons: curriculum.filter((lesson) => lesson.level === level) }))
-    .filter((group) => group.lessons.length > 0);
-  const semanticAreas = lifeAreas.map((area) => ({
-    ...area,
-    count: curriculum.filter((lesson) => lesson.primaryEnvironment === area.slug || lesson.secondaryEnvironments.includes(area.slug)).length,
-  }));
-  const levels = curriculumByLevel.map((group) => group.level);
-  const languageMapExamples: Record<LanguageKey, string[]> = {
-    english: ["Lead a guest conversation", "Share an opinion naturally", "Feel ready in meetings", "Travel without rehearsing every sentence"],
-    french: ["Find the right social register", "Follow natural conversation", "Express nuance and taste", "Travel with cultural confidence"],
-    spanish: ["Participate in daily life", "Connect more deeply in Mexico", "Handle work interactions", "Build real relationships"],
-  };
-  const livedMoments: Record<LanguageKey, { label: string; line: string; context: string }> = {
-    english: { label: "Work · 09:14", line: "Could you walk me through that?", context: "A useful sentence begins with a real need: understand the process, ask clearly, keep the conversation moving." },
-    french: { label: "Après le travail · 18:20", line: "On se retrouve après le travail ?", context: "The words carry more than a plan. They carry ease, social distance, rhythm, and the possibility of belonging." },
-    spanish: { label: "Daily life · 13:05", line: "¿Me recomienda algo de aquí?", context: "Language becomes local when it helps you ask, listen, respond, and take part in the place around you." },
-  };
-  const livedMoment = livedMoments[profile.key];
-  return (
-    <>
-      <PageIntro eyebrow={`${profile.code} · ${profile.eyebrow}`} title={profile.heading} copy={profile.description} accent={profile.accent} note={profile.nativeName} />
-      <section className="section hub-pillars"><div className="container"><SectionHeading eyebrow="Built around you" title="Learn what your life asks for." intro="A useful language path follows situations before syllabi." /><div className="hub-pillar-grid">{languageMapExamples[profile.key].map((item, index) => <article key={item}><span>0{index + 1}</span><h3>{item}</h3></article>)}</div><aside className={`hub-field-note hub-field-note--${profile.accent}`}><span>{livedMoment.label}</span><blockquote>{livedMoment.line}</blockquote><p>{livedMoment.context}</p></aside></div></section>
-      <section className="section">
-        <div className="container">
-          <SectionHeading eyebrow="Your life · six doors" title="Enter the curriculum from where you already are." intro="The same canonical lesson graph can be explored by level or by the part of life where the language becomes useful." />
-          <div className="resource-grid mt-10">
-            {semanticAreas.map((area) => (
-              <Link className="resource-card" key={area.slug} href={`/learn/${profile.key}/life/${area.slug}`}>
-                <p className="eyebrow">{area.count} connected lessons</p>
-                <h3>{area.title}</h3>
-                <p>{area.note}</p>
-                <span className="resource-card__link">Explore this life area <i aria-hidden="true">→</i></span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className={`section hub-method hub-method--${profile.accent}`}><div className="container"><SectionHeading eyebrow="The learning movement" title="From experience to interaction." intro="Notice what is happening. Build the thought. Connect it to language. Say it. Use it with someone." /><MethodSequence compact /><ButtonLink href="/method" variant="secondary">See how the method works</ButtonLink></div></section>
-      <section className="section">
-        <div className="container">
-          <SectionHeading eyebrow={`Curriculum · ${curriculum.length} lessons`} title="A real path, not a pile of exercises." intro={`Move through ${levels.join(", ")} with lessons rooted in home, work, people, travel, interests, and culture.`} />
-          <div className="mt-12 space-y-4">
-            {curriculumByLevel.map((group, index) => (
-              <details key={group.level} open={index === 0} className="border-t border-[var(--line)] py-5">
-                <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 py-2 marker:content-none">
-                  <span className="font-[var(--serif)] text-3xl">{group.level}</span>
-                  <span className="text-xs font-bold uppercase tracking-[.12em] text-[var(--ink-soft)]">{group.lessons.length} lessons</span>
-                </summary>
-                <div className="resource-grid mt-6">
-                  {group.lessons.map((lesson) => (
-                    <Link className="resource-card" key={lesson.id} href={`/learn/${lesson.language}/${lesson.slug}`}>
-                      <p className="eyebrow">{lesson.level} · {lesson.primaryEnvironment}</p>
-                      <h3>{lesson.title}</h3>
-                      <p>{lesson.learningObjective}</p>
-                    </Link>
-                  ))}
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section"><div className="container"><div className="resources-preview__heading"><SectionHeading eyebrow={`Explore ${profile.nativeName}`} title="Start with one useful idea." /><ButtonLink href="/resources" variant="text">All free resources</ButtonLink></div><div className="resource-grid resource-grid--preview">{related.map((resource, index) => <ResourceCard key={resource.slug} resource={resource} index={index} />)}</div></div></section>
-      <CTASection eyebrow={`${profile.code} · Your next step`} title={`Make ${profile.name} part of your world.`} copy="Tell us where you want to use it, what matters to you, and what feels difficult now." />
-    </>
-  );
+export default async function LanguageHubPage({params}:PageProps<"/learn/[language]">){
+ const {language}=await params; const locale=await getInterfaceLocale(); const c=hubCopy[locale]; const profile=languages.find((item)=>item.key===language); if(!profile)notFound();
+ const related=resources.filter((r)=>r.language===profile.key).slice(0,3); const curriculum=getCurriculumLessons(profile.key as CurriculumLanguage); const curriculumByLevel=cefrOrder.map((level)=>({level,lessons:curriculum.filter((lesson)=>lesson.level===level)})).filter((g)=>g.lessons.length>0);
+ const semanticAreas=areaSlugs.map((slug)=>({slug,title:areaCopy[locale][slug][0],note:areaCopy[locale][slug][1],count:curriculum.filter((lesson)=>lesson.primaryEnvironment===slug||lesson.secondaryEnvironments.includes(slug)).length}));
+ const examples:Record<LanguageKey,string[]>={english:["Lead a guest conversation","Share an opinion naturally","Feel ready in meetings","Travel without rehearsing every sentence"],french:["Find the right social register","Follow natural conversation","Express nuance and taste","Travel with cultural confidence"],spanish:["Participate in daily life","Connect more deeply in Mexico","Handle work interactions","Build real relationships"]};
+ return <><PageIntro eyebrow={`${profile.code} · ${profile.eyebrow}`} title={profile.heading} copy={profile.description} accent={profile.accent} note={profile.nativeName}/><section className="section hub-pillars"><div className="container"><SectionHeading eyebrow={c.built} title={c.builtTitle} intro={c.builtIntro}/><div className="hub-pillar-grid">{examples[profile.key].map((item,index)=><article key={item}><span>0{index+1}</span><h3>{item}</h3></article>)}</div></div></section><section className="section"><div className="container"><SectionHeading eyebrow={c.lifeEye} title={c.lifeTitle} intro={c.lifeIntro}/><div className="resource-grid mt-10">{semanticAreas.map((area)=><Link className="resource-card" key={area.slug} href={`/learn/${profile.key}/life/${area.slug}`}><p className="eyebrow">{area.count} {c.connected}</p><h3>{area.title}</h3><p>{area.note}</p><span className="resource-card__link">{c.explore} <i aria-hidden="true">→</i></span></Link>)}</div></div></section><section className={`section hub-method hub-method--${profile.accent}`}><div className="container"><SectionHeading eyebrow={c.movement} title={c.movementTitle} intro={c.movementIntro}/><MethodSequence compact/><ButtonLink href="/method" variant="secondary">{c.method}</ButtonLink></div></section><section className="section"><div className="container"><SectionHeading eyebrow={`${c.curriculum} · ${curriculum.length} ${c.lessons}`} title={c.path} intro={c.pathIntro}/><div className="mt-12 space-y-4">{curriculumByLevel.map((group,index)=><details key={group.level} open={index===0} className="border-t border-[var(--line)] py-5"><summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 py-2 marker:content-none"><span className="font-[var(--serif)] text-3xl">{group.level}</span><span className="text-xs font-bold uppercase tracking-[.12em] text-[var(--ink-soft)]">{group.lessons.length} {c.lessons}</span></summary><div className="resource-grid mt-6">{group.lessons.map((lesson)=><Link className="resource-card" key={lesson.id} href={`/learn/${lesson.language}/${lesson.slug}`}><p className="eyebrow">{lesson.level} · {lesson.primaryEnvironment}</p><h3>{lesson.title}</h3><p>{lesson.learningObjective}</p></Link>)}</div></details>)}</div></div></section><section className="section"><div className="container"><div className="resources-preview__heading"><SectionHeading eyebrow={`${c.exploreLang} ${profile.nativeName}`} title={c.idea}/><ButtonLink href="/resources" variant="text">{c.resources}</ButtonLink></div><div className="resource-grid resource-grid--preview">{related.map((resource,index)=><ResourceCard key={resource.slug} resource={resource} index={index}/>)}</div></div></section><CTASection eyebrow={`${profile.code} · ${c.next}`} title={c.make} copy={c.cta}/></>;
 }
