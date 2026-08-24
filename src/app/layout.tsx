@@ -4,7 +4,7 @@ import { InterfaceLocaleProvider } from "@/components/interface-locale";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/config/site";
-import { getInterfaceLocale } from "@/lib/interface-locale";
+import { getInterfaceLocale } from "@/lib/interface-locale-server";
 import "./globals.css";
 
 const newsreader = Newsreader({
