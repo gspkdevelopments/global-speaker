@@ -11,7 +11,82 @@ import {
 } from "@/lib/curriculum";
 import { siteConfig } from "@/config/site";
 
-const languageLabels = { english: "English", spanish: "Spanish", french: "French" } as const;
+const languageLabels = { english: "English", spanish: "Español", french: "Français" } as const;
+const languageCodes = { english: "en", spanish: "es", french: "fr" } as const;
+
+const lessonUi = {
+  english: {
+    learningPath: "learning path",
+    practiceTime: "Practice time",
+    level: "Level",
+    environment: "Environment",
+    inLesson: "In this lesson",
+    makeItYours: "Make it yours",
+    mapTitle: "Connect this lesson to your Language Map.",
+    mapCopy: "Use the situation, environment, and communication goal to turn this lesson into something from your real life.",
+    mapButton: "Open my Language Map",
+    continueGraph: "Continue the graph",
+    continueTitle: "Keep moving through the curriculum.",
+  },
+  spanish: {
+    learningPath: "ruta de aprendizaje",
+    practiceTime: "Tiempo de práctica",
+    level: "Nivel",
+    environment: "Entorno",
+    inLesson: "En esta lección",
+    makeItYours: "Hazlo tuyo",
+    mapTitle: "Conecta esta lección con tu Language Map.",
+    mapCopy: "Usa la situación, el entorno y el objetivo comunicativo para llevar esta lección a algo real de tu vida.",
+    mapButton: "Abrir mi Language Map",
+    continueGraph: "Continúa el recorrido",
+    continueTitle: "Sigue avanzando por el currículo.",
+  },
+  french: {
+    learningPath: "parcours d’apprentissage",
+    practiceTime: "Temps de pratique",
+    level: "Niveau",
+    environment: "Contexte",
+    inLesson: "Dans cette leçon",
+    makeItYours: "À vous de jouer",
+    mapTitle: "Reliez cette leçon à votre Language Map.",
+    mapCopy: "Utilisez la situation, le contexte et l’objectif communicatif pour relier cette leçon à votre vie réelle.",
+    mapButton: "Ouvrir ma Language Map",
+    continueGraph: "Poursuivre le parcours",
+    continueTitle: "Continuez à avancer dans le programme.",
+  },
+} as const;
+
+const sectionLabels: Record<keyof typeof lessonUi, Record<string, string>> = {
+  english: {},
+  spanish: {
+    Context: "Contexto",
+    Objective: "Objetivo",
+    Notice: "Observa",
+    Understand: "Comprende",
+    "Language toolkit": "Herramientas lingüísticas",
+    Examples: "Ejemplos",
+    "Culture & register": "Cultura y registro",
+    "Guided practice": "Práctica guiada",
+    Production: "Producción",
+    "Real-world challenge": "Reto en la vida real",
+    Reflection: "Reflexión",
+    Continue: "Continúa",
+  },
+  french: {
+    Context: "Contexte",
+    Objective: "Objectif",
+    Notice: "Observer",
+    Understand: "Comprendre",
+    "Language toolkit": "Boîte à outils linguistique",
+    Examples: "Exemples",
+    "Culture & register": "Culture et registre",
+    "Guided practice": "Pratique guidée",
+    Production: "Production",
+    "Real-world challenge": "Défi dans la vie réelle",
+    Reflection: "Réflexion",
+    Continue: "Continuer",
+  },
+};
 
 export function generateStaticParams() {
   return getCurriculumLessons().map((lesson) => ({ language: lesson.language, slug: lesson.slug }));
@@ -46,6 +121,9 @@ export default async function CurriculumLessonPage({ params }: PageProps<"/learn
     .slice(0, 4);
   const related = relatedIds.map(getCurriculumLessonById).filter((item) => item !== undefined);
   const languageLabel = languageLabels[lesson.language];
+  const ui = lessonUi[lesson.language];
+  const translatedSections = sectionLabels[lesson.language];
+  const displaySection = (heading: string) => translatedSections[heading] ?? heading;
   const schema = {
     "@context": "https://schema.org",
     "@type": "LearningResource",
@@ -53,27 +131,27 @@ export default async function CurriculumLessonPage({ params }: PageProps<"/learn
     description: lesson.description,
     learningResourceType: lesson.lessonType,
     educationalLevel: lesson.level,
-    inLanguage: lesson.language === "french" ? "fr" : lesson.language === "spanish" ? "es" : "en",
+    inLanguage: languageCodes[lesson.language],
     provider: { "@type": "Organization", name: "Global Speaker" },
     url: `${siteConfig.siteUrl}${lesson.seo.canonicalPath}`,
   };
 
   return (
-    <article className="article article--teal">
+    <article className="article article--teal" lang={languageCodes[lesson.language]}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />
       <header className="article-header">
         <div className="container article-header__grid">
           <div>
-            <Link className="article-back" href={`/learn/${lesson.language}`}>← {languageLabel} learning path</Link>
+            <Link className="article-back" href={`/learn/${lesson.language}`}>← {languageLabel} {ui.learningPath}</Link>
             <p className="eyebrow">{languageLabel} · {lesson.level} · {lesson.lessonType.replaceAll("-", " ")}</p>
             <h1>{lesson.title}</h1>
             <p className="article-header__subtitle">{lesson.learningObjective}</p>
           </div>
           <div className="article-header__aside">
             <dl>
-              <div><dt>Practice time</dt><dd>{lesson.estimatedMinutes} min</dd></div>
-              <div><dt>Level</dt><dd>{lesson.level}</dd></div>
-              <div><dt>Environment</dt><dd>{lesson.primaryEnvironment}</dd></div>
+              <div><dt>{ui.practiceTime}</dt><dd>{lesson.estimatedMinutes} min</dd></div>
+              <div><dt>{ui.level}</dt><dd>{lesson.level}</dd></div>
+              <div><dt>{ui.environment}</dt><dd>{lesson.primaryEnvironment}</dd></div>
             </dl>
           </div>
         </div>
@@ -81,10 +159,10 @@ export default async function CurriculumLessonPage({ params }: PageProps<"/learn
 
       <div className="container article-layout">
         <aside className="article-rail">
-          <span>In this lesson</span>
+          <span>{ui.inLesson}</span>
           {lesson.sections.map((section, index) => (
             <a key={section.heading} href={`#section-${index + 1}`}>
-              {String(index + 1).padStart(2, "0")} {section.heading}
+              {String(index + 1).padStart(2, "0")} {displaySection(section.heading)}
             </a>
           ))}
         </aside>
@@ -93,17 +171,17 @@ export default async function CurriculumLessonPage({ params }: PageProps<"/learn
           {lesson.sections.map((section, index) => (
             <section id={`section-${index + 1}`} key={`${index}-${section.heading}`}>
               <span className="article-section-number">{String(index + 1).padStart(2, "0")}</span>
-              <h2>{section.heading}</h2>
+              <h2>{displaySection(section.heading)}</h2>
               <CurriculumMarkdown body={section.body} />
             </section>
           ))}
           <section className="article-map-cta">
             <div>
-              <p className="eyebrow">Make it yours</p>
-              <h2>Connect this lesson to your Language Map.</h2>
-              <p>Use the situation, environment, and communication goal to turn this lesson into something from your real life.</p>
+              <p className="eyebrow">{ui.makeItYours}</p>
+              <h2>{ui.mapTitle}</h2>
+              <p>{ui.mapCopy}</p>
             </div>
-            <ButtonLink href="/language-map">Open my Language Map</ButtonLink>
+            <ButtonLink href="/language-map">{ui.mapButton}</ButtonLink>
           </section>
         </div>
       </div>
@@ -111,8 +189,8 @@ export default async function CurriculumLessonPage({ params }: PageProps<"/learn
       {related.length ? (
         <section className="section related-resources">
           <div className="container">
-            <p className="eyebrow">Continue the graph</p>
-            <h2>Keep moving through the curriculum.</h2>
+            <p className="eyebrow">{ui.continueGraph}</p>
+            <h2>{ui.continueTitle}</h2>
             <div className="resource-grid">
               {related.map((item) => (
                 <Link className="resource-card" key={item.id} href={`/learn/${item.language}/${item.slug}`}>
