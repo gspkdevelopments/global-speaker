@@ -9,6 +9,14 @@ import { resources } from "@/content/resources";
 import { getCurriculumLessons, type CurriculumLanguage } from "@/lib/curriculum";
 
 const cefrOrder = ["A1", "A2", "B1", "B2", "C1", "C2"] as const;
+const lifeAreas = [
+  { slug: "home", title: "Home", note: "Routines · space · shared life" },
+  { slug: "work", title: "Work", note: "Tasks · clients · decisions" },
+  { slug: "people", title: "People", note: "Connection · opinions · boundaries" },
+  { slug: "travel", title: "Travel", note: "Arrival · movement · problem-solving" },
+  { slug: "interests", title: "Interests", note: "Music · technology · food · ideas" },
+  { slug: "culture", title: "Culture", note: "Register · humor · implication" },
+] as const;
 
 export function generateStaticParams() { return languages.map((language) => ({ language: language.key })); }
 
@@ -28,6 +36,10 @@ export default async function LanguageHubPage({ params }: PageProps<"/learn/[lan
   const curriculumByLevel = cefrOrder
     .map((level) => ({ level, lessons: curriculum.filter((lesson) => lesson.level === level) }))
     .filter((group) => group.lessons.length > 0);
+  const semanticAreas = lifeAreas.map((area) => ({
+    ...area,
+    count: curriculum.filter((lesson) => lesson.primaryEnvironment === area.slug || lesson.secondaryEnvironments.includes(area.slug)).length,
+  }));
   const levels = curriculumByLevel.map((group) => group.level);
   const languageMapExamples: Record<LanguageKey, string[]> = {
     english: ["Lead a guest conversation", "Share an opinion naturally", "Feel ready in meetings", "Travel without rehearsing every sentence"],
@@ -44,6 +56,21 @@ export default async function LanguageHubPage({ params }: PageProps<"/learn/[lan
     <>
       <PageIntro eyebrow={`${profile.code} · ${profile.eyebrow}`} title={profile.heading} copy={profile.description} accent={profile.accent} note={profile.nativeName} />
       <section className="section hub-pillars"><div className="container"><SectionHeading eyebrow="Built around you" title="Learn what your life asks for." intro="A useful language path follows situations before syllabi." /><div className="hub-pillar-grid">{languageMapExamples[profile.key].map((item, index) => <article key={item}><span>0{index + 1}</span><h3>{item}</h3></article>)}</div><aside className={`hub-field-note hub-field-note--${profile.accent}`}><span>{livedMoment.label}</span><blockquote>{livedMoment.line}</blockquote><p>{livedMoment.context}</p></aside></div></section>
+      <section className="section">
+        <div className="container">
+          <SectionHeading eyebrow="Your life · six doors" title="Enter the curriculum from where you already are." intro="The same canonical lesson graph can be explored by level or by the part of life where the language becomes useful." />
+          <div className="resource-grid mt-10">
+            {semanticAreas.map((area) => (
+              <Link className="resource-card" key={area.slug} href={`/learn/${profile.key}/life/${area.slug}`}>
+                <p className="eyebrow">{area.count} connected lessons</p>
+                <h3>{area.title}</h3>
+                <p>{area.note}</p>
+                <span className="resource-card__link">Explore this life area <i aria-hidden="true">→</i></span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className={`section hub-method hub-method--${profile.accent}`}><div className="container"><SectionHeading eyebrow="The learning movement" title="From experience to interaction." intro="Notice what is happening. Build the thought. Connect it to language. Say it. Use it with someone." /><MethodSequence compact /><ButtonLink href="/method" variant="secondary">See how the method works</ButtonLink></div></section>
       <section className="section">
         <div className="container">
