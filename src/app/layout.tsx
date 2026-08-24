@@ -4,6 +4,7 @@ import { InterfaceLocaleProvider } from "@/components/interface-locale";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/config/site";
+import { getInterfaceLocale } from "@/lib/interface-locale-server";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -38,12 +39,15 @@ const organizationSchema = {
   areaServed: ["Tulum", "Riviera Maya", "Online"],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+const skipLabels = { en: "Skip to content", es: "Saltar al contenido", fr: "Aller au contenu" } as const;
+
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const locale = await getInterfaceLocale();
   return (
-    <html lang="en" className={`${newsreader.variable} ${workSans.variable}`}>
+    <html lang={locale} className={`${newsreader.variable} ${workSans.variable}`}>
       <body>
-        <InterfaceLocaleProvider>
-          <a className="skip-link" href="#main-content">Skip to content</a>
+        <InterfaceLocaleProvider initialLocale={locale}>
+          <a className="skip-link" href="#main-content">{skipLabels[locale]}</a>
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }} />
           <SiteHeader />
           <main id="main-content">{children}</main>

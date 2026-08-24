@@ -1,8 +1,9 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-
-export type InterfaceLocale = "en" | "es" | "fr";
+import { createContext, useContext, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import type { InterfaceLocale } from "@/lib/interface-locale";
+import { INTERFACE_LOCALE_COOKIE } from "@/lib/interface-locale";
 
 type LocaleContextValue = {
   locale: InterfaceLocale;
@@ -10,23 +11,16 @@ type LocaleContextValue = {
 };
 
 const InterfaceLocaleContext = createContext<LocaleContextValue | null>(null);
-const STORAGE_KEY = "gspk-interface-locale";
 
-export function InterfaceLocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<InterfaceLocale>("en");
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved === "en" || saved === "es" || saved === "fr") {
-      setLocaleState(saved);
-      document.documentElement.lang = saved;
-    }
-  }, []);
+export function InterfaceLocaleProvider({ children, initialLocale }: { children: React.ReactNode; initialLocale: InterfaceLocale }) {
+  const [locale, setLocaleState] = useState<InterfaceLocale>(initialLocale);
+  const router = useRouter();
 
   const setLocale = (nextLocale: InterfaceLocale) => {
     setLocaleState(nextLocale);
-    window.localStorage.setItem(STORAGE_KEY, nextLocale);
+    document.cookie = `${INTERFACE_LOCALE_COOKIE}=${nextLocale}; Path=/; Max-Age=31536000; SameSite=Lax`;
     document.documentElement.lang = nextLocale;
+    router.refresh();
   };
 
   const value = useMemo(() => ({ locale, setLocale }), [locale]);

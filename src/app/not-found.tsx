@@ -1,5 +1,5 @@
+import { Localized } from "@/components/localized";
 import { ButtonLink } from "@/components/ui";
 
-export default function NotFound() {
-  return <section className="not-found"><div><p className="eyebrow">404 · A missing word</p><h1>This path has not been mapped yet.</h1><p>The language platform is growing. Return to the beginning or follow a useful question.</p><div><ButtonLink href="/">Return home</ButtonLink><ButtonLink href="/resources" variant="secondary">Explore resources</ButtonLink></div></div></section>;
-}
+function State({eye,title,copy,home,resources}:{eye:string;title:string;copy:string;home:string;resources:string}){return <section className="not-found"><div><p className="eyebrow">{eye}</p><h1>{title}</h1><p>{copy}</p><div><ButtonLink href="/">{home}</ButtonLink><ButtonLink href="/resources" variant="secondary">{resources}</ButtonLink></div></div></section>}
+export default function NotFound(){return <Localized en={<State eye="404 · A missing word" title="This path has not been mapped yet." copy="The language platform is growing. Return to the beginning or follow a useful question." home="Return home" resources="Explore resources"/>} es={<State eye="404 · Una palabra perdida" title="Esta ruta aún no ha sido mapeada." copy="La plataforma lingüística sigue creciendo. Vuelve al inicio o sigue una pregunta útil." home="Volver al inicio" resources="Explorar recursos"/>} fr={<State eye="404 · Un mot manquant" title="Ce chemin n’a pas encore été cartographié." copy="La plateforme linguistique continue de grandir. Revenez au début ou suivez une question utile." home="Retour à l’accueil" resources="Explorer les ressources"/>}/>}
