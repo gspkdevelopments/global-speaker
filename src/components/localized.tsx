@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useInterfaceLocale, type InterfaceLocale } from "@/components/interface-locale";
+import { useInterfaceLocale } from "@/components/interface-locale";
+import type { InterfaceLocale } from "@/lib/interface-locale";
 
 type LocalizedProps = {
   en: ReactNode;
