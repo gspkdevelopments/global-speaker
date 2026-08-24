@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Newsreader, Work_Sans } from "next/font/google";
+import { InterfaceLocaleProvider } from "@/components/interface-locale";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/config/site";
@@ -41,11 +42,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${newsreader.variable} ${workSans.variable}`}>
       <body>
-        <a className="skip-link" href="#main-content">Skip to content</a>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }} />
-        <SiteHeader />
-        <main id="main-content">{children}</main>
-        <SiteFooter />
+        <InterfaceLocaleProvider>
+          <a className="skip-link" href="#main-content">Skip to content</a>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }} />
+          <SiteHeader />
+          <main id="main-content">{children}</main>
+          <SiteFooter />
+        </InterfaceLocaleProvider>
       </body>
     </html>
   );
