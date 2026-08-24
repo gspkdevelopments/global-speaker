@@ -17,7 +17,7 @@ export default function HomePage() {
             <p className="eyebrow">English · Français · Español</p>
             <h1>Speak more<br />of the <em>world.</em></h1>
             <p className="hero__lede">Learn the language through the life you already live.</p>
-            <div className="hero__actions"><ButtonLink href="/language-map">Build your Language Map</ButtonLink><ButtonLink href="/resources" variant="text">Explore free resources</ButtonLink></div>
+            <div className="hero__actions"><ButtonLink href="/learn">Explore the full curriculum</ButtonLink><ButtonLink href="/language-map" variant="text">Build your Language Map</ButtonLink></div>
             <div className="goal-links" aria-label="Reasons for learning"><span>What brings you here?</span>{["Work", "Travel", "Life", "Culture"].map((goal) => <Link key={goal} href={`/language-map?reason=${goal.toLowerCase()}`}>{goal}</Link>)}</div>
           </div>
           <div className="hero__visual" aria-label="Language grows from everyday experience">
@@ -46,8 +46,8 @@ export default function HomePage() {
 
       <section className="section life-section">
         <div className="container life-section__heading">
-          <SectionHeading eyebrow="Your life · 02" title="Your life is already full of lessons." intro="The words you need are hiding in plain sight — in the places you go, the work you do, and the things that hold your attention." />
-          <p className="margin-note">Tap a world to look inside.</p>
+          <SectionHeading eyebrow="Your life · 02" title="Your life is already full of lessons." intro="Choose a world, then open its connected curriculum in English, French, or Spanish." />
+          <p className="margin-note">Tap a world, then choose a language.</p>
         </div>
         <div className="container"><LifeEnvironmentGrid /></div>
       </section>
@@ -91,7 +91,7 @@ export default function HomePage() {
 
       <section className="section resources-preview">
         <div className="container">
-          <div className="resources-preview__heading"><SectionHeading eyebrow="Free resources · 06" title="Follow a question." intro="Small ideas become useful when they attach to something you can see, hear, feel, or do." /><ButtonLink href="/resources" variant="text">Explore all resources</ButtonLink></div>
+          <div className="resources-preview__heading"><SectionHeading eyebrow="Articles & language guides · 06" title="Follow a question." intro="Short editorial resources are separate from the structured 175-lesson curriculum." /><ButtonLink href="/resources" variant="text">Explore articles & guides</ButtonLink></div>
           <div className="resource-grid resource-grid--preview">{[resources[0], resources[4], resources[7]].map((resource, index) => <ResourceCard resource={resource} index={index} key={resource.slug} />)}</div>
         </div>
       </section>
