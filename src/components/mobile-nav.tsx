@@ -3,21 +3,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useRef, useState } from "react";
+import { useInterfaceLocale } from "@/components/interface-locale";
 
-const links = [
-  ["Learn", "/learn"],
-  ["Professional", "/professional"],
-  ["Method", "/method"],
-  ["Resources", "/resources"],
-  ["Culture", "/culture"],
-  ["About", "/about"],
-];
+const labels = {
+  en: { links: ["Learn", "Professional", "Method", "Resources", "Culture", "About"], start: "Start learning", interface: "Interface language", open: "Open navigation", close: "Close navigation", choose: "Choose a learning language" },
+  es: { links: ["Aprender", "Profesional", "Método", "Recursos", "Cultura", "Acerca de"], start: "Empezar a aprender", interface: "Idioma de la interfaz", open: "Abrir navegación", close: "Cerrar navegación", choose: "Elige un idioma de aprendizaje" },
+  fr: { links: ["Apprendre", "Professionnel", "Méthode", "Ressources", "Culture", "À propos"], start: "Commencer à apprendre", interface: "Langue de l'interface", open: "Ouvrir la navigation", close: "Fermer la navigation", choose: "Choisir une langue d'apprentissage" },
+} as const;
+
+const hrefs = ["/learn", "/professional", "/method", "/resources", "/culture", "/about"] as const;
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const { locale, setLocale } = useInterfaceLocale();
+  const copy = labels[locale];
 
   useEffect(() => {
     if (!open) return;
@@ -46,7 +48,7 @@ export function MobileNav() {
         aria-haspopup="true"
         aria-expanded={open}
         aria-controls="mobile-menu"
-        aria-label={open ? "Close navigation" : "Open navigation"}
+        aria-label={open ? copy.close : copy.open}
         onClick={() => setOpen((current) => !current)}
       >
         <span />
@@ -54,29 +56,36 @@ export function MobileNav() {
       </button>
       {open ? (
         <div className="mobile-nav__panel" id="mobile-menu">
-          <nav aria-label="Mobile navigation">
-            {links.map(([label, href], index) => {
+          <nav aria-label={locale === "es" ? "Navegación móvil" : locale === "fr" ? "Navigation mobile" : "Mobile navigation"}>
+            {hrefs.map((href, index) => {
               const active = pathname === href || (href === "/learn" && pathname.startsWith("/learn/")) || (href === "/resources" && pathname.startsWith("/resources/")) || (href === "/professional" && pathname.startsWith("/professional/"));
               return (
-              <Fragment key={href}>
-              <Link ref={index === 0 ? firstLinkRef : undefined} className={active ? "is-active" : ""} aria-current={active ? "page" : undefined} key={href} href={href} onClick={() => setOpen(false)}>
-                <span>0{index + 1}</span>{label}
-              </Link>
-              {index === 0 ? (
-                <div className="mobile-nav__languages" aria-label="Choose a learning language">
-                  <Link className={pathname === "/learn/english" ? "is-active" : ""} aria-current={pathname === "/learn/english" ? "page" : undefined} href="/learn/english" onClick={() => setOpen(false)}><span>EN</span>English</Link>
-                  <Link className={pathname === "/learn/french" ? "is-active" : ""} aria-current={pathname === "/learn/french" ? "page" : undefined} href="/learn/french" onClick={() => setOpen(false)}><span>FR</span>Français</Link>
-                  <Link className={pathname === "/learn/spanish" ? "is-active" : ""} aria-current={pathname === "/learn/spanish" ? "page" : undefined} href="/learn/spanish" onClick={() => setOpen(false)}><span>ES</span>Español</Link>
-                </div>
-              ) : null}
-              </Fragment>
+                <Fragment key={href}>
+                  <Link ref={index === 0 ? firstLinkRef : undefined} className={active ? "is-active" : ""} aria-current={active ? "page" : undefined} href={href} onClick={() => setOpen(false)}>
+                    <span>0{index + 1}</span>{copy.links[index]}
+                  </Link>
+                  {index === 0 ? (
+                    <div className="mobile-nav__languages" aria-label={copy.choose}>
+                      <Link className={pathname === "/learn/english" ? "is-active" : ""} href="/learn/english" onClick={() => setOpen(false)}><span>EN</span>English</Link>
+                      <Link className={pathname === "/learn/french" ? "is-active" : ""} href="/learn/french" onClick={() => setOpen(false)}><span>FR</span>Français</Link>
+                      <Link className={pathname === "/learn/spanish" ? "is-active" : ""} href="/learn/spanish" onClick={() => setOpen(false)}><span>ES</span>Español</Link>
+                    </div>
+                  ) : null}
+                </Fragment>
               );
             })}
           </nav>
           <Link className="button button--primary" href="/language-map" onClick={() => setOpen(false)}>
-            <span>Start learning</span><span aria-hidden="true">↗</span>
+            <span>{copy.start}</span><span aria-hidden="true">↗</span>
           </Link>
-          <p>Interface language · EN <span aria-hidden="true">/</span> ES <span aria-hidden="true">/</span> FR</p>
+          <div>
+            <p>{copy.interface}</p>
+            <div className="mt-3 flex gap-2" role="group" aria-label={copy.interface}>
+              {(["en", "es", "fr"] as const).map((item) => (
+                <button key={item} type="button" className={`rounded-full border px-3 py-2 text-sm uppercase${locale === item ? " font-bold" : ""}`} aria-pressed={locale === item} onClick={() => setLocale(item)}>{item}</button>
+              ))}
+            </div>
+          </div>
         </div>
       ) : null}
     </div>
