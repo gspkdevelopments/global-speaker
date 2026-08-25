@@ -69,7 +69,15 @@ function localizedMeta(lesson: CurriculumLessonMeta, locale?: InterfaceLocale): 
   if (!locale) return lesson;
   const override = getLocalizedCurriculumOverride(locale, lesson.id);
   return override
-    ? { ...lesson, title: override.title, description: override.description, learningObjective: override.learningObjective }
+    ? {
+        ...lesson,
+        title: override.title,
+        description: override.description,
+        learningObjective: override.learningObjective,
+        nextRecommended: override.nextLessonId
+          ? [{ id: override.nextLessonId, kind: "continues", priority: "primary", reason: "Continúa la ruta base de Global Speaker." }]
+          : [],
+      }
     : lesson;
 }
 

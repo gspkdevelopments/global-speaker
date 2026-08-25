@@ -12,6 +12,10 @@ export type LocalizedCurriculumSection = {
 };
 
 export type LocalizedCurriculumLessonOverride = {
+  language: "english" | "french" | "spanish";
+  pillar: string;
+  sequence: number;
+  nextLessonId?: string;
   title: string;
   description: string;
   learningObjective: string;

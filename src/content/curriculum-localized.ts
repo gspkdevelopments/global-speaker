@@ -1,7 +1,15 @@
 import type { LocalizedCurriculumLessonOverride } from "@/lib/curriculum-types";
 import type { InterfaceLocale } from "@/lib/interface-locale";
+import { spanishFrenchBeingLessons } from "./curriculum-localized/es-french-being.ts";
+import { spanishFrenchLeisureLessons } from "./curriculum-localized/es-french-leisure.ts";
+import { spanishFrenchPersonalityLessons } from "./curriculum-localized/es-french-personality.ts";
+import { spanishFrenchUrgencyLessons } from "./curriculum-localized/es-french-urgency.ts";
 
 const spanishFrenchPilot: LocalizedCurriculumLessonOverride = {
+  language: "french",
+  pillar: "Ser y existir",
+  sequence: 1,
+  nextLessonId: "fra-people-raconter-un-souvenir-v1",
   title: "Qui je suis aujourd’hui",
   description:
     "Construye una presentación que hable de tu vida real: quién eres, de dónde vienes, dónde vives y cómo te sientes hoy.",
@@ -94,12 +102,25 @@ const spanishFrenchPilot: LocalizedCurriculumLessonOverride = {
   ],
 };
 
+const spanishFrenchFoundation = {
+  "fra-people-saluer-et-se-presenter-v1": spanishFrenchPilot,
+  ...spanishFrenchBeingLessons,
+  ...spanishFrenchPersonalityLessons,
+  ...spanishFrenchUrgencyLessons,
+  ...spanishFrenchLeisureLessons,
+};
+
 const overrides: Partial<Record<InterfaceLocale, Record<string, LocalizedCurriculumLessonOverride>>> = {
-  es: {
-    "fra-people-saluer-et-se-presenter-v1": spanishFrenchPilot,
-  },
+  es: spanishFrenchFoundation,
 };
 
 export function getLocalizedCurriculumOverride(locale: InterfaceLocale, lessonId: string) {
   return overrides[locale]?.[lessonId];
+}
+
+export function getLocalizedFoundationLessonIds(locale: InterfaceLocale, language: string) {
+  return Object.entries(overrides[locale] ?? {})
+    .filter(([, lesson]) => lesson.language === language)
+    .sort(([, a], [, b]) => a.sequence - b.sequence)
+    .map(([lessonId]) => lessonId);
 }

@@ -32,7 +32,7 @@ Interface-language support is layered over the canonical target-language corpus 
 src/content/curriculum-localized.ts
 ```
 
-An override may localize the lesson objective, explanation, instructions, feedback, and progress checkpoints while preserving target-language phrases and practice. The first approved pilot is the Spanish-supported French lesson `fra-people-saluer-et-se-presenter-v1`.
+An override may localize the lesson objective, explanation, instructions, feedback, and progress checkpoints while preserving target-language phrases and practice. The first approved collection is the eight-lesson Spanish-supported French foundation route. It covers identity, personality, urgent needs, and leisure/interests with two lessons per pillar.
 
 If no approved override exists for the selected interface locale, the canonical authored lesson remains the fallback. This allows localized lessons to be reviewed and released incrementally without duplicating or weakening the 175-object graph.
 
