@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Localized } from "@/components/localized";
 import { CTASection, PageIntro, SectionHeading } from "@/components/ui";
 
@@ -20,7 +21,14 @@ function FounderPortrait({ locale }: { locale: "en" | "es" | "fr" }) {
   }[locale];
   return (
     <figure className="relative m-0 min-h-[380px] overflow-hidden bg-[var(--paper-deep)] md:min-h-[600px]">
-      <img src="/founder-ricardo-aguilar.jpg" alt={copy.alt} className="absolute inset-0 h-full w-full object-cover object-center" />
+      <Image
+        src="/founder-ricardo-aguilar.jpg"
+        alt={copy.alt}
+        fill
+        sizes="(max-width: 767px) calc(100vw - 2rem), 33vw"
+        quality={90}
+        className="object-cover object-center"
+      />
       <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/45 to-transparent px-5 pb-5 pt-20 text-white">
         <strong className="block text-sm font-bold uppercase tracking-[.13em]">Ricardo Aguilar</strong>
         <span className="mt-1 block text-xs tracking-[.08em]">{copy.role}</span>
