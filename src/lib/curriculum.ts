@@ -3,6 +3,9 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import corpus from "@/content/curriculum-corpus-v1.json";
+import { getLocalizedCurriculumOverride } from "@/content/curriculum-localized";
+import type { CurriculumPracticeQuestion, LocalizedCurriculumSection } from "@/lib/curriculum-types";
+import type { InterfaceLocale } from "@/lib/interface-locale";
 
 export const curriculumLanguages = ["english", "spanish", "french"] as const;
 export type CurriculumLanguage = (typeof curriculumLanguages)[number];
@@ -43,11 +46,15 @@ export type CurriculumLessonMeta = {
 export type AuthoredSection = {
   heading: string;
   body: string;
+  kind?: LocalizedCurriculumSection["kind"];
 };
 
 export type AuthoredCurriculumLesson = CurriculumLessonMeta & {
   markdown: string;
   sections: AuthoredSection[];
+  expectedOutcome?: string;
+  practice: CurriculumPracticeQuestion[];
+  checkpoints: string[];
 };
 
 const lessons = corpus.lessons as CurriculumLessonMeta[];
@@ -58,17 +65,28 @@ export function isCurriculumLanguage(value: string): value is CurriculumLanguage
   return curriculumLanguages.includes(value as CurriculumLanguage);
 }
 
-export function getCurriculumLessons(language?: CurriculumLanguage) {
-  return language ? lessons.filter((lesson) => lesson.language === language) : lessons;
+function localizedMeta(lesson: CurriculumLessonMeta, locale?: InterfaceLocale): CurriculumLessonMeta {
+  if (!locale) return lesson;
+  const override = getLocalizedCurriculumOverride(locale, lesson.id);
+  return override
+    ? { ...lesson, title: override.title, description: override.description, learningObjective: override.learningObjective }
+    : lesson;
 }
 
-export function getCurriculumLessonMeta(language: string, slug: string) {
+export function getCurriculumLessons(language?: CurriculumLanguage, locale?: InterfaceLocale) {
+  const selected = language ? lessons.filter((lesson) => lesson.language === language) : lessons;
+  return selected.map((lesson) => localizedMeta(lesson, locale));
+}
+
+export function getCurriculumLessonMeta(language: string, slug: string, locale?: InterfaceLocale) {
   if (!isCurriculumLanguage(language)) return undefined;
-  return byPath.get(`${language}/${slug}`);
+  const lesson = byPath.get(`${language}/${slug}`);
+  return lesson ? localizedMeta(lesson, locale) : undefined;
 }
 
-export function getCurriculumLessonById(id: string) {
-  return byId.get(id);
+export function getCurriculumLessonById(id: string, locale?: InterfaceLocale) {
+  const lesson = byId.get(id);
+  return lesson ? localizedMeta(lesson, locale) : undefined;
 }
 
 function authoredPath(lesson: CurriculumLessonMeta) {
@@ -90,9 +108,20 @@ export function parseAuthoredSections(markdown: string): AuthoredSection[] {
   });
 }
 
-export function getAuthoredCurriculumLesson(language: string, slug: string): AuthoredCurriculumLesson | undefined {
-  const meta = getCurriculumLessonMeta(language, slug);
+export function getAuthoredCurriculumLesson(language: string, slug: string, locale?: InterfaceLocale): AuthoredCurriculumLesson | undefined {
+  const meta = getCurriculumLessonMeta(language, slug, locale);
   if (!meta) return undefined;
+  const override = locale ? getLocalizedCurriculumOverride(locale, meta.id) : undefined;
+  if (override) {
+    return {
+      ...meta,
+      markdown: "",
+      sections: override.sections,
+      expectedOutcome: override.expectedOutcome,
+      practice: override.practice,
+      checkpoints: override.checkpoints,
+    };
+  }
   const markdown = readFileSync(authoredPath(meta), "utf8");
-  return { ...meta, markdown, sections: parseAuthoredSections(markdown) };
+  return { ...meta, markdown, sections: parseAuthoredSections(markdown), practice: [], checkpoints: [] };
 }
