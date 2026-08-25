@@ -24,6 +24,18 @@ src/content/curriculum/generated/
 
 Generated Markdown is intentionally ignored by Git. `predev`, `prebuild`, and `qa:corpus` materialize it automatically, so the committed packed source and the frozen canonical inventory remain the auditable inputs.
 
+## Localized learning support
+
+Interface-language support is layered over the canonical target-language corpus in:
+
+```text
+src/content/curriculum-localized.ts
+```
+
+An override may localize the lesson objective, explanation, instructions, feedback, and progress checkpoints while preserving target-language phrases and practice. The first approved collection is the eight-lesson Spanish-supported French foundation route. It covers identity, personality, urgent needs, and leisure/interests with two lessons per pillar.
+
+If no approved override exists for the selected interface locale, the canonical authored lesson remains the fallback. This allows localized lessons to be reviewed and released incrementally without duplicating or weakening the 175-object graph.
+
 Each generated lesson is named by canonical lesson ID, for example:
 
 ```text

@@ -1,15 +1,15 @@
 import type { ReactNode } from "react";
 
-function inline(text: string): ReactNode[] {
+function inline(text: string, targetLanguage?: string): ReactNode[] {
   const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g).filter(Boolean);
   return parts.map((part, index) => {
     if (part.startsWith("**") && part.endsWith("**")) return <strong key={index}>{part.slice(2, -2)}</strong>;
-    if (part.startsWith("`") && part.endsWith("`")) return <code key={index}>{part.slice(1, -1)}</code>;
+    if (part.startsWith("`") && part.endsWith("`")) return <code key={index} lang={targetLanguage}>{part.slice(1, -1)}</code>;
     return part;
   });
 }
 
-export function CurriculumMarkdown({ body }: { body: string }) {
+export function CurriculumMarkdown({ body, targetLanguage }: { body: string; targetLanguage?: string }) {
   const lines = body.split("\n");
   const blocks: ReactNode[] = [];
   let paragraph: string[] = [];
@@ -17,14 +17,14 @@ export function CurriculumMarkdown({ body }: { body: string }) {
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
-    blocks.push(<p key={`p-${blocks.length}`}>{inline(paragraph.join(" "))}</p>);
+    blocks.push(<p key={`p-${blocks.length}`}>{inline(paragraph.join(" "), targetLanguage)}</p>);
     paragraph = [];
   };
 
   const flushList = () => {
     if (!list) return;
     const Tag = list.ordered ? "ol" : "ul";
-    blocks.push(<Tag key={`l-${blocks.length}`}>{list.items.map((item) => <li key={item}>{inline(item)}</li>)}</Tag>);
+    blocks.push(<Tag key={`l-${blocks.length}`}>{list.items.map((item) => <li key={item}>{inline(item, targetLanguage)}</li>)}</Tag>);
     list = null;
   };
 
@@ -34,7 +34,7 @@ export function CurriculumMarkdown({ body }: { body: string }) {
 
     if (line.startsWith("### ")) {
       flushParagraph(); flushList();
-      blocks.push(<h3 key={`h-${blocks.length}`}>{inline(line.slice(4))}</h3>);
+      blocks.push(<h3 key={`h-${blocks.length}`}>{inline(line.slice(4), targetLanguage)}</h3>);
       continue;
     }
 
@@ -50,7 +50,7 @@ export function CurriculumMarkdown({ body }: { body: string }) {
 
     if (line.startsWith("> ")) {
       flushParagraph(); flushList();
-      blocks.push(<blockquote key={`q-${blocks.length}`}>{inline(line.slice(2))}</blockquote>);
+      blocks.push(<blockquote key={`q-${blocks.length}`}>{inline(line.slice(2), targetLanguage)}</blockquote>);
       continue;
     }
 
