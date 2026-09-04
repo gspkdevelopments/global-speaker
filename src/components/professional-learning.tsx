@@ -1,20 +1,475 @@
 "use client";
 import Link from "next/link";
-import type { Lesson, LearningModule, ProfessionalPath } from "@/content/professional";
+import type {
+  Lesson,
+  LearningModule,
+  ProfessionalPath,
+} from "@/content/professional";
 import { ButtonLink, SectionHeading } from "@/components/ui";
 import { useInterfaceLocale } from "@/components/interface-locale";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
-const c={
- en:{professional:"Professional",lesson:"Lesson",lessons:"lessons available",development:"Learning path in development",goal:"Goal",soon:"Coming soon",practice:"Practice this with a teacher",practiceTitle:"Turn the situation into a real conversation.",practiceCopy:"Remote sessions are available worldwide. In-person sessions are available in Tulum when applicable.",map:"Build your Language Map",about:"Learn about Global Speaker",module:"Module",language:"Language",level:"Level",open:"Open level",study:"Study time",self:"Self-paced",inLesson:"In this lesson",commGoal:"Communication goal",useful:"Useful language",phrases:"Useful phrases",scenario:"Real scenario",role:"Your role:",happening:"What is happening:",practiceLabel:"Practice",check:"Check one possible answer",yourTurn:"Your turn",previous:"Previous",start:"Start of path",overview:"Path overview",next:"Next",continue:"Continue",explore:"Explore the path"},
- es:{professional:"Profesional",lesson:"Lección",lessons:"lecciones disponibles",development:"Ruta de aprendizaje en desarrollo",goal:"Meta",soon:"Próximamente",practice:"Practica esto con un profesor",practiceTitle:"Convierte la situación en una conversación real.",practiceCopy:"Hay sesiones remotas disponibles en todo el mundo. Las sesiones presenciales están disponibles en Tulum cuando corresponda.",map:"Crear tu Mapa de Idioma",about:"Conocer Global Speaker",module:"Módulo",language:"Idioma",level:"Nivel",open:"Nivel abierto",study:"Tiempo de estudio",self:"A tu ritmo",inLesson:"En esta lección",commGoal:"Objetivo de comunicación",useful:"Lenguaje útil",phrases:"Frases útiles",scenario:"Escenario real",role:"Tu rol:",happening:"Qué está ocurriendo:",practiceLabel:"Práctica",check:"Ver una posible respuesta",yourTurn:"Tu turno",previous:"Anterior",start:"Inicio de la ruta",overview:"Vista general de la ruta",next:"Siguiente",continue:"Continuar",explore:"Explorar la ruta"},
- fr:{professional:"Professionnel",lesson:"Leçon",lessons:"leçons disponibles",development:"Parcours en développement",goal:"Objectif",soon:"Bientôt disponible",practice:"Pratiquez ceci avec un professeur",practiceTitle:"Transformez la situation en vraie conversation.",practiceCopy:"Les sessions à distance sont disponibles partout dans le monde. Les sessions en personne sont possibles à Tulum selon le cas.",map:"Créer votre carte linguistique",about:"Découvrir Global Speaker",module:"Module",language:"Langue",level:"Niveau",open:"Niveau ouvert",study:"Temps d’étude",self:"À votre rythme",inLesson:"Dans cette leçon",commGoal:"Objectif de communication",useful:"Langue utile",phrases:"Phrases utiles",scenario:"Situation réelle",role:"Votre rôle :",happening:"Ce qui se passe :",practiceLabel:"Pratique",check:"Voir une réponse possible",yourTurn:"À vous",previous:"Précédent",start:"Début du parcours",overview:"Vue d’ensemble",next:"Suivant",continue:"Continuer",explore:"Explorer le parcours"}
+const c = {
+  en: {
+    professional: "Professional",
+    lesson: "Lesson",
+    lessons: "lessons available",
+    development: "Learning path in development",
+    goal: "Goal",
+    soon: "Coming soon",
+    practice: "Practice this with a teacher",
+    practiceTitle: "Turn the situation into a real conversation.",
+    practiceCopy:
+      "Remote sessions are available worldwide. In-person sessions are available in Tulum when applicable.",
+    map: "Build your Language Map",
+    about: "Learn about Global Speaker",
+    module: "Module",
+    language: "Language",
+    level: "Level",
+    open: "Open level",
+    study: "Study time",
+    self: "Self-paced",
+    inLesson: "In this lesson",
+    commGoal: "Communication goal",
+    useful: "Useful language",
+    phrases: "Useful phrases",
+    scenario: "Real scenario",
+    role: "Your role:",
+    happening: "What is happening:",
+    practiceLabel: "Practice",
+    check: "Check one possible answer",
+    yourTurn: "Your turn",
+    previous: "Previous",
+    start: "Start of path",
+    overview: "Path overview",
+    next: "Next",
+    continue: "Continue",
+    explore: "Explore the path",
+  },
+  es: {
+    professional: "Profesional",
+    lesson: "Lección",
+    lessons: "lecciones disponibles",
+    development: "Ruta de aprendizaje en desarrollo",
+    goal: "Meta",
+    soon: "Próximamente",
+    practice: "Practica esto con un profesor",
+    practiceTitle: "Convierte la situación en una conversación real.",
+    practiceCopy:
+      "Hay sesiones remotas disponibles en todo el mundo. Las sesiones presenciales están disponibles en Tulum cuando corresponda.",
+    map: "Crear tu Mapa de Idioma",
+    about: "Conocer Global Speaker",
+    module: "Módulo",
+    language: "Idioma",
+    level: "Nivel",
+    open: "Nivel abierto",
+    study: "Tiempo de estudio",
+    self: "A tu ritmo",
+    inLesson: "En esta lección",
+    commGoal: "Objetivo de comunicación",
+    useful: "Lenguaje útil",
+    phrases: "Frases útiles",
+    scenario: "Escenario real",
+    role: "Tu rol:",
+    happening: "Qué está ocurriendo:",
+    practiceLabel: "Práctica",
+    check: "Ver una posible respuesta",
+    yourTurn: "Tu turno",
+    previous: "Anterior",
+    start: "Inicio de la ruta",
+    overview: "Vista general de la ruta",
+    next: "Siguiente",
+    continue: "Continuar",
+    explore: "Explorar la ruta",
+  },
+  fr: {
+    professional: "Professionnel",
+    lesson: "Leçon",
+    lessons: "leçons disponibles",
+    development: "Parcours en développement",
+    goal: "Objectif",
+    soon: "Bientôt disponible",
+    practice: "Pratiquez ceci avec un professeur",
+    practiceTitle: "Transformez la situation en vraie conversation.",
+    practiceCopy:
+      "Les sessions à distance sont disponibles partout dans le monde. Les sessions en personne sont possibles à Tulum selon le cas.",
+    map: "Créer votre carte linguistique",
+    about: "Découvrir Global Speaker",
+    module: "Module",
+    language: "Langue",
+    level: "Niveau",
+    open: "Niveau ouvert",
+    study: "Temps d’étude",
+    self: "À votre rythme",
+    inLesson: "Dans cette leçon",
+    commGoal: "Objectif de communication",
+    useful: "Langue utile",
+    phrases: "Phrases utiles",
+    scenario: "Situation réelle",
+    role: "Votre rôle :",
+    happening: "Ce qui se passe :",
+    practiceLabel: "Pratique",
+    check: "Voir une réponse possible",
+    yourTurn: "À vous",
+    previous: "Précédent",
+    start: "Début du parcours",
+    overview: "Vue d’ensemble",
+    next: "Suivant",
+    continue: "Continuer",
+    explore: "Explorer le parcours",
+  },
 } as const;
 
-export function Breadcrumbs({items}:{items:{label:string;href?:string}[]}){return <nav className="breadcrumbs" aria-label="Breadcrumb"><Link href="/">Global Speaker</Link>{items.map((item)=><span key={item.label}><i aria-hidden="true">→</i>{item.href?<Link href={item.href}>{item.label}</Link>:<span aria-current="page">{item.label}</span>}</span>)}</nav>}
-export function ProfessionalPathCard({path,index}:{path:ProfessionalPath;index:number}){const {locale}=useInterfaceLocale();const x=c[locale];const lessonCount=path.modules.reduce((count,module)=>count+module.lessons.length,0);return <Link className="professional-card" href={`/professional/${path.slug}`}><div><span>{String(index+1).padStart(2,"0")}</span><i>{path.shortCode}</i></div><h3>{path.title}</h3><p>{path.communicationNeeds.join(" · ")}<br/><small>{lessonCount?`${lessonCount} ${x.lessons}`:x.development}</small></p><b aria-hidden="true">↗</b></Link>}
-export function ModuleList({path}:{path:ProfessionalPath}){const {locale}=useInterfaceLocale();const x=c[locale];return <div className="module-list">{path.modules.map((module)=><article className="module-row" key={module.slug}><div className="module-row__number">{String(module.number).padStart(2,"0")}</div><div><h3>{module.title}</h3><p>{module.description}</p><span className="module-row__goal">{x.goal} · {module.communicationGoal}</span>{module.lessons.length?<div className="lesson-links">{module.lessons.map((lesson)=><Link href={`/professional/${path.slug}/${lesson.slug}`} key={lesson.id}><span>{x.lesson}</span>{lesson.title}<b aria-hidden="true">↗</b></Link>)}</div>:<p className="module-status">{x.soon}</p>}</div></article>)}</div>}
-export function PracticeTeacherCTA(){const {locale}=useInterfaceLocale();const x=c[locale];return <section className="learning-teacher"><div><p className="eyebrow">{x.practice}</p><h2>{x.practiceTitle}</h2><p>{x.practiceCopy}</p></div><div className="learning-teacher__actions"><ButtonLink href="/language-map">{x.map}</ButtonLink><ButtonLink href="/about" variant="text">{x.about}</ButtonLink></div></section>}
-function LessonSection({section,index}:{section:{title:string;body:string;examples?:string[]};index:number}){return <section className="lesson-section"><span className="article-section-number">0{index+1}</span><h2>{section.title}</h2><p>{section.body}</p>{section.examples?<div className="example-list">{section.examples.map((example)=><p key={example}>{example}</p>)}</div>:null}</section>}
-export function LessonRenderer({lesson,path,module,previous,next}:{lesson:Lesson;path:ProfessionalPath;module:LearningModule;previous?:Lesson;next?:Lesson}){const {locale}=useInterfaceLocale();const x=c[locale];return <><header className="lesson-header"><div className="container"><Breadcrumbs items={[{label:x.professional,href:"/professional"},{label:path.title,href:`/professional/${path.slug}`},{label:lesson.title}]}/><div className="lesson-header__grid"><div><p className="eyebrow">{path.shortCode} · {x.module} {String(module.number).padStart(2,"0")}</p><h1>{lesson.title}</h1><p className="lesson-header__subtitle">{lesson.description}</p></div><dl className="lesson-meta"><div><dt>{x.language}</dt><dd>{lesson.language==="english"?"English":lesson.language}</dd></div><div><dt>{x.level}</dt><dd>{lesson.level??x.open}</dd></div><div><dt>{x.study}</dt><dd>{lesson.estimatedMinutes?`${lesson.estimatedMinutes} min`:x.self}</dd></div></dl></div></div></header><main className="lesson-layout"><div className="container lesson-layout__grid"><aside className="lesson-rail"><span>{x.inLesson}</span><a href="#goal">{x.commGoal}</a><a href="#language">{x.useful}</a><a href="#scenario">{x.scenario}</a><a href="#practice">{x.practiceLabel}</a><a href="#your-turn">{x.yourTurn}</a></aside><article className="lesson-content"><section className="lesson-goal" id="goal"><p className="eyebrow">{x.commGoal}</p><p>{lesson.communicationGoal}</p></section>{lesson.vocabulary?<section id="language" className="lesson-section"><span className="article-section-number">01</span><h2>{x.useful}</h2><div className="vocabulary-grid">{lesson.vocabulary.map((item)=><div key={item.term}><strong>{item.term}</strong><span>{item.meaning}</span></div>)}</div></section>:null}{lesson.phrases?<section id={lesson.vocabulary?undefined:"language"} className="lesson-section"><span className="article-section-number">{lesson.vocabulary?"02":"01"}</span><h2>{lesson.vocabulary?x.phrases:x.useful}</h2><div className="phrase-list">{lesson.phrases.map((phrase)=><div key={phrase.text}><p>{phrase.text}</p>{phrase.note?<span>{phrase.note}</span>:null}</div>)}</div></section>:null}{lesson.explanation?.map((section,index)=><LessonSection index={index+(lesson.vocabulary?2:1)} key={section.title} section={section}/>)}{lesson.scenario?<section className="lesson-scenario" id="scenario"><p className="eyebrow">{x.scenario}</p><h2>{lesson.scenario.setting}</h2><p><strong>{x.role}</strong> {lesson.scenario.role}</p><p><strong>{x.happening}</strong> {lesson.scenario.situation}</p></section>:null}{lesson.practice?<section className="lesson-section" id="practice"><span className="article-section-number">06</span><h2>{x.practiceLabel}</h2><div className="practice-list">{lesson.practice.map((item,index)=><div key={item.prompt}><span>{String(index+1).padStart(2,"0")} · {item.type}</span><p>{item.prompt}</p>{item.answer?<details><summary>{x.check}</summary><p>{item.answer}</p></details>:null}</div>)}</div></section>:null}{lesson.yourTurn?<section className="your-turn" id="your-turn"><p className="eyebrow">{x.yourTurn}</p><p>{lesson.yourTurn.prompt}</p><span>{lesson.yourTurn.guidance}</span></section>:null}<LessonNavigation path={path} previous={previous} next={next}/></article></div></main><PracticeTeacherCTA/></>}
-function LessonNavigation({path,previous,next}:{path:ProfessionalPath;previous?:Lesson;next?:Lesson}){const {locale}=useInterfaceLocale();const x=c[locale];return <nav className="lesson-navigation" aria-label="Lesson navigation"><div>{previous?<Link href={`/professional/${path.slug}/${previous.slug}`}><span>{x.previous}</span>{previous.title}</Link>:<span className="lesson-navigation__empty">{x.start}</span>}</div><Link className="lesson-navigation__overview" href={`/professional/${path.slug}`}>{x.overview}</Link><div>{next?<Link href={`/professional/${path.slug}/${next.slug}`}><span>{x.next}</span>{next.title}</Link>:<Link href={`/professional/${path.slug}`}><span>{x.continue}</span>{x.explore}</Link>}</div></nav>}
-export function LearningHeader({title,intro,eyebrow}:{title:string;intro:string;eyebrow:string}){return <div className="container"><SectionHeading eyebrow={eyebrow} title={title} intro={intro}/></div>}
+export function Breadcrumbs({
+  items,
+}: {
+  items: { label: string; href?: string }[];
+}) {
+  return (
+    <nav className="breadcrumbs" aria-label="Breadcrumb">
+      <Link href="/">Global Speaker</Link>
+      {items.map((item) => (
+        <span key={item.label}>
+          <i aria-hidden="true">→</i>
+          {item.href ? (
+            <Link href={item.href}>{item.label}</Link>
+          ) : (
+            <span aria-current="page">{item.label}</span>
+          )}
+        </span>
+      ))}
+    </nav>
+  );
+}
+export function ProfessionalPathCard({
+  path,
+  index,
+}: {
+  path: ProfessionalPath;
+  index: number;
+}) {
+  const { locale } = useInterfaceLocale();
+  const x = pickLocaleCopy(c, locale);
+  const lessonCount = path.modules.reduce(
+    (count, module) => count + module.lessons.length,
+    0,
+  );
+  return (
+    <Link className="professional-card" href={`/professional/${path.slug}`}>
+      <div>
+        <span>{String(index + 1).padStart(2, "0")}</span>
+        <i>{path.shortCode}</i>
+      </div>
+      <h3>{path.title}</h3>
+      <p>
+        {path.communicationNeeds.join(" · ")}
+        <br />
+        <small>
+          {lessonCount ? `${lessonCount} ${x.lessons}` : x.development}
+        </small>
+      </p>
+      <b aria-hidden="true">↗</b>
+    </Link>
+  );
+}
+export function ModuleList({ path }: { path: ProfessionalPath }) {
+  const { locale } = useInterfaceLocale();
+  const x = pickLocaleCopy(c, locale);
+  return (
+    <div className="module-list">
+      {path.modules.map((module) => (
+        <article className="module-row" key={module.slug}>
+          <div className="module-row__number">
+            {String(module.number).padStart(2, "0")}
+          </div>
+          <div>
+            <h3>{module.title}</h3>
+            <p>{module.description}</p>
+            <span className="module-row__goal">
+              {x.goal} · {module.communicationGoal}
+            </span>
+            {module.lessons.length ? (
+              <div className="lesson-links">
+                {module.lessons.map((lesson) => (
+                  <Link
+                    href={`/professional/${path.slug}/${lesson.slug}`}
+                    key={lesson.id}
+                  >
+                    <span>{x.lesson}</span>
+                    {lesson.title}
+                    <b aria-hidden="true">↗</b>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="module-status">{x.soon}</p>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+export function PracticeTeacherCTA() {
+  const { locale } = useInterfaceLocale();
+  const x = pickLocaleCopy(c, locale);
+  return (
+    <section className="learning-teacher">
+      <div>
+        <p className="eyebrow">{x.practice}</p>
+        <h2>{x.practiceTitle}</h2>
+        <p>{x.practiceCopy}</p>
+      </div>
+      <div className="learning-teacher__actions">
+        <ButtonLink href="/language-map">{x.map}</ButtonLink>
+        <ButtonLink href="/about" variant="text">
+          {x.about}
+        </ButtonLink>
+      </div>
+    </section>
+  );
+}
+function LessonSection({
+  section,
+  index,
+}: {
+  section: { title: string; body: string; examples?: string[] };
+  index: number;
+}) {
+  return (
+    <section className="lesson-section">
+      <span className="article-section-number">0{index + 1}</span>
+      <h2>{section.title}</h2>
+      <p>{section.body}</p>
+      {section.examples ? (
+        <div className="example-list">
+          {section.examples.map((example) => (
+            <p key={example}>{example}</p>
+          ))}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+export function LessonRenderer({
+  lesson,
+  path,
+  module,
+  previous,
+  next,
+}: {
+  lesson: Lesson;
+  path: ProfessionalPath;
+  module: LearningModule;
+  previous?: Lesson;
+  next?: Lesson;
+}) {
+  const { locale } = useInterfaceLocale();
+  const x = pickLocaleCopy(c, locale);
+  return (
+    <>
+      <header className="lesson-header">
+        <div className="container">
+          <Breadcrumbs
+            items={[
+              { label: x.professional, href: "/professional" },
+              { label: path.title, href: `/professional/${path.slug}` },
+              { label: lesson.title },
+            ]}
+          />
+          <div className="lesson-header__grid">
+            <div>
+              <p className="eyebrow">
+                {path.shortCode} · {x.module}{" "}
+                {String(module.number).padStart(2, "0")}
+              </p>
+              <h1>{lesson.title}</h1>
+              <p className="lesson-header__subtitle">{lesson.description}</p>
+            </div>
+            <dl className="lesson-meta">
+              <div>
+                <dt>{x.language}</dt>
+                <dd>
+                  {lesson.language === "english" ? "English" : lesson.language}
+                </dd>
+              </div>
+              <div>
+                <dt>{x.level}</dt>
+                <dd>{lesson.level ?? x.open}</dd>
+              </div>
+              <div>
+                <dt>{x.study}</dt>
+                <dd>
+                  {lesson.estimatedMinutes
+                    ? `${lesson.estimatedMinutes} min`
+                    : x.self}
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </header>
+      <main className="lesson-layout">
+        <div className="container lesson-layout__grid">
+          <aside className="lesson-rail">
+            <span>{x.inLesson}</span>
+            <a href="#goal">{x.commGoal}</a>
+            <a href="#language">{x.useful}</a>
+            <a href="#scenario">{x.scenario}</a>
+            <a href="#practice">{x.practiceLabel}</a>
+            <a href="#your-turn">{x.yourTurn}</a>
+          </aside>
+          <article className="lesson-content">
+            <section className="lesson-goal" id="goal">
+              <p className="eyebrow">{x.commGoal}</p>
+              <p>{lesson.communicationGoal}</p>
+            </section>
+            {lesson.vocabulary ? (
+              <section id="language" className="lesson-section">
+                <span className="article-section-number">01</span>
+                <h2>{x.useful}</h2>
+                <div className="vocabulary-grid">
+                  {lesson.vocabulary.map((item) => (
+                    <div key={item.term}>
+                      <strong>{item.term}</strong>
+                      <span>{item.meaning}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+            {lesson.phrases ? (
+              <section
+                id={lesson.vocabulary ? undefined : "language"}
+                className="lesson-section"
+              >
+                <span className="article-section-number">
+                  {lesson.vocabulary ? "02" : "01"}
+                </span>
+                <h2>{lesson.vocabulary ? x.phrases : x.useful}</h2>
+                <div className="phrase-list">
+                  {lesson.phrases.map((phrase) => (
+                    <div key={phrase.text}>
+                      <p>{phrase.text}</p>
+                      {phrase.note ? <span>{phrase.note}</span> : null}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+            {lesson.explanation?.map((section, index) => (
+              <LessonSection
+                index={index + (lesson.vocabulary ? 2 : 1)}
+                key={section.title}
+                section={section}
+              />
+            ))}
+            {lesson.scenario ? (
+              <section className="lesson-scenario" id="scenario">
+                <p className="eyebrow">{x.scenario}</p>
+                <h2>{lesson.scenario.setting}</h2>
+                <p>
+                  <strong>{x.role}</strong> {lesson.scenario.role}
+                </p>
+                <p>
+                  <strong>{x.happening}</strong> {lesson.scenario.situation}
+                </p>
+              </section>
+            ) : null}
+            {lesson.practice ? (
+              <section className="lesson-section" id="practice">
+                <span className="article-section-number">06</span>
+                <h2>{x.practiceLabel}</h2>
+                <div className="practice-list">
+                  {lesson.practice.map((item, index) => (
+                    <div key={item.prompt}>
+                      <span>
+                        {String(index + 1).padStart(2, "0")} · {item.type}
+                      </span>
+                      <p>{item.prompt}</p>
+                      {item.answer ? (
+                        <details>
+                          <summary>{x.check}</summary>
+                          <p>{item.answer}</p>
+                        </details>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+            {lesson.yourTurn ? (
+              <section className="your-turn" id="your-turn">
+                <p className="eyebrow">{x.yourTurn}</p>
+                <p>{lesson.yourTurn.prompt}</p>
+                <span>{lesson.yourTurn.guidance}</span>
+              </section>
+            ) : null}
+            <LessonNavigation path={path} previous={previous} next={next} />
+          </article>
+        </div>
+      </main>
+      <PracticeTeacherCTA />
+    </>
+  );
+}
+function LessonNavigation({
+  path,
+  previous,
+  next,
+}: {
+  path: ProfessionalPath;
+  previous?: Lesson;
+  next?: Lesson;
+}) {
+  const { locale } = useInterfaceLocale();
+  const x = pickLocaleCopy(c, locale);
+  return (
+    <nav className="lesson-navigation" aria-label="Lesson navigation">
+      <div>
+        {previous ? (
+          <Link href={`/professional/${path.slug}/${previous.slug}`}>
+            <span>{x.previous}</span>
+            {previous.title}
+          </Link>
+        ) : (
+          <span className="lesson-navigation__empty">{x.start}</span>
+        )}
+      </div>
+      <Link
+        className="lesson-navigation__overview"
+        href={`/professional/${path.slug}`}
+      >
+        {x.overview}
+      </Link>
+      <div>
+        {next ? (
+          <Link href={`/professional/${path.slug}/${next.slug}`}>
+            <span>{x.next}</span>
+            {next.title}
+          </Link>
+        ) : (
+          <Link href={`/professional/${path.slug}`}>
+            <span>{x.continue}</span>
+            {x.explore}
+          </Link>
+        )}
+      </div>
+    </nav>
+  );
+}
+export function LearningHeader({
+  title,
+  intro,
+  eyebrow,
+}: {
+  title: string;
+  intro: string;
+  eyebrow: string;
+}) {
+  return (
+    <div className="container">
+      <SectionHeading eyebrow={eyebrow} title={title} intro={intro} />
+    </div>
+  );
+}

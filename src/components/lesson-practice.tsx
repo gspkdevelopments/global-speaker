@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { CurriculumPracticeQuestion } from "@/lib/curriculum-types";
 import type { InterfaceLocale } from "@/lib/interface-locale";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
 const copy = {
   en: { correct: "Correct", retry: "Try again" },
@@ -36,7 +37,7 @@ export function LessonPractice({ questions, locale, targetLanguage }: { question
             </div>
             {selected ? (
               <p className={isCorrect ? "lesson-feedback is-correct" : "lesson-feedback is-retry"} role="status">
-                <strong>{isCorrect ? copy[locale].correct : copy[locale].retry}.</strong> {question.explanation}
+                <strong>{isCorrect ? pickLocaleCopy(copy, locale).correct : pickLocaleCopy(copy, locale).retry}.</strong> {question.explanation}
               </p>
             ) : null}
           </fieldset>

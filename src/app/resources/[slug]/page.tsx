@@ -6,13 +6,208 @@ import { ButtonLink } from "@/components/ui";
 import { getResource, resources } from "@/content/resources";
 import { siteConfig } from "@/config/site";
 import { getInterfaceLocale } from "@/lib/interface-locale-server";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
-const copy={
- en:{all:"All resources",reading:"Reading time",level:"Level",topic:"Topic",inIdea:"In this idea",turn:"Your turn",turnTitle:"Bring the idea into the room.",personal:"Make it personal",mapTitle:"Add this to your Language Map.",mapCopy:"Connect this idea to a situation where you would actually use it.",add:"Add to my map",keep:"Keep exploring",related:"Related resources"},
- es:{all:"Todos los recursos",reading:"Tiempo de lectura",level:"Nivel",topic:"Tema",inIdea:"En esta idea",turn:"Tu turno",turnTitle:"Lleva la idea a una situación real.",personal:"Hazlo personal",mapTitle:"Añade esto a tu Mapa de Idioma.",mapCopy:"Conecta esta idea con una situación donde realmente la usarías.",add:"Añadir a mi mapa",keep:"Sigue explorando",related:"Recursos relacionados"},
- fr:{all:"Toutes les ressources",reading:"Temps de lecture",level:"Niveau",topic:"Sujet",inIdea:"Dans cette idée",turn:"À vous",turnTitle:"Faites entrer cette idée dans une situation réelle.",personal:"Rendez-la personnelle",mapTitle:"Ajoutez ceci à votre carte linguistique.",mapCopy:"Reliez cette idée à une situation où vous l’utiliseriez réellement.",add:"Ajouter à ma carte",keep:"Continuer à explorer",related:"Ressources associées"}
+const copy = {
+  en: {
+    all: "All resources",
+    reading: "Reading time",
+    level: "Level",
+    topic: "Topic",
+    inIdea: "In this idea",
+    turn: "Your turn",
+    turnTitle: "Bring the idea into the room.",
+    personal: "Make it personal",
+    mapTitle: "Add this to your Language Map.",
+    mapCopy:
+      "Connect this idea to a situation where you would actually use it.",
+    add: "Add to my map",
+    keep: "Keep exploring",
+    related: "Related resources",
+  },
+  es: {
+    all: "Todos los recursos",
+    reading: "Tiempo de lectura",
+    level: "Nivel",
+    topic: "Tema",
+    inIdea: "En esta idea",
+    turn: "Tu turno",
+    turnTitle: "Lleva la idea a una situación real.",
+    personal: "Hazlo personal",
+    mapTitle: "Añade esto a tu Mapa de Idioma.",
+    mapCopy: "Conecta esta idea con una situación donde realmente la usarías.",
+    add: "Añadir a mi mapa",
+    keep: "Sigue explorando",
+    related: "Recursos relacionados",
+  },
+  fr: {
+    all: "Toutes les ressources",
+    reading: "Temps de lecture",
+    level: "Niveau",
+    topic: "Sujet",
+    inIdea: "Dans cette idée",
+    turn: "À vous",
+    turnTitle: "Faites entrer cette idée dans une situation réelle.",
+    personal: "Rendez-la personnelle",
+    mapTitle: "Ajoutez ceci à votre carte linguistique.",
+    mapCopy:
+      "Reliez cette idée à une situation où vous l’utiliseriez réellement.",
+    add: "Ajouter à ma carte",
+    keep: "Continuer à explorer",
+    related: "Ressources associées",
+  },
 } as const;
 
-export function generateStaticParams(){return resources.map((resource)=>({slug:resource.slug}));}
-export async function generateMetadata({params}:PageProps<"/resources/[slug]">):Promise<Metadata>{const {slug}=await params;const resource=getResource(slug);if(!resource)return{};return{title:resource.title,description:resource.description,alternates:{canonical:`/resources/${resource.slug}`},openGraph:{type:"article",title:resource.title,description:resource.description,url:`/resources/${resource.slug}`,publishedTime:resource.publishedAt,modifiedTime:resource.updatedAt}};}
-export default async function ResourceArticlePage({params}:PageProps<"/resources/[slug]">){const {slug}=await params;const locale=await getInterfaceLocale();const c=copy[locale];const resource=getResource(slug);if(!resource)notFound();const related=resource.related.map(getResource).filter((item)=>item!==undefined);const schema={"@context":"https://schema.org","@type":"Article",headline:resource.title,description:resource.description,datePublished:resource.publishedAt,dateModified:resource.updatedAt,author:{"@type":"Organization",name:resource.author},publisher:{"@type":"Organization",name:"Global Speaker"},inLanguage:resource.language==="french"?"fr":resource.language==="spanish"?"es":"en",mainEntityOfPage:`${siteConfig.siteUrl}/resources/${resource.slug}`};return <article className={`article article--${resource.accent}`}><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema).replace(/</g,"\\u003c")}}/><header className="article-header"><div className="container article-header__grid"><div><Link className="article-back" href="/resources">← {c.all}</Link><p className="eyebrow">{resource.languageLabel} · {resource.category}</p><h1>{resource.title}</h1><p className="article-header__subtitle">{resource.subtitle}</p></div><div className="article-header__aside"><ResourceCover resource={resource} className="article-header__cover"/><dl><div><dt>{c.reading}</dt><dd>{resource.readingTime}</dd></div><div><dt>{c.level}</dt><dd>{resource.difficulty}</dd></div><div><dt>{c.topic}</dt><dd>{resource.category}</dd></div></dl></div></div></header><div className="container article-layout"><aside className="article-rail"><span>{c.inIdea}</span>{resource.sections.map((section,index)=><a key={section.heading} href={`#section-${index+1}`}>{String(index+1).padStart(2,"0")} {section.heading}</a>)}</aside><div className="article-content"><p className="article-intro">{resource.description}</p>{resource.sections.map((section,index)=><section id={`section-${index+1}`} key={section.heading}><span className="article-section-number">{String(index+1).padStart(2,"0")}</span><h2>{section.heading}</h2><p>{section.body}</p>{section.examples?<div className="example-list">{section.examples.map((example)=><p key={example}>{example}</p>)}</div>:null}</section>)}<section className="your-turn"><p className="eyebrow">{c.turn}</p><h2>{c.turnTitle}</h2>{resource.exercise.map((prompt)=><p key={prompt}>{prompt}</p>)}</section><section className="article-map-cta"><div><p className="eyebrow">{c.personal}</p><h2>{c.mapTitle}</h2><p>{c.mapCopy}</p></div><ButtonLink href="/language-map">{c.add}</ButtonLink></section></div></div>{related.length?<section className="section related-resources"><div className="container"><p className="eyebrow">{c.keep}</p><h2>{c.related}</h2><div className="resource-grid">{related.map((item,index)=><ResourceCard key={item.slug} resource={item} index={index}/>)}</div></div></section>:null}</article>}
+export function generateStaticParams() {
+  return resources.map((resource) => ({ slug: resource.slug }));
+}
+export async function generateMetadata({
+  params,
+}: PageProps<"/resources/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const resource = getResource(slug);
+  if (!resource) return {};
+  return {
+    title: resource.title,
+    description: resource.description,
+    alternates: { canonical: `/resources/${resource.slug}` },
+    openGraph: {
+      type: "article",
+      title: resource.title,
+      description: resource.description,
+      url: `/resources/${resource.slug}`,
+      publishedTime: resource.publishedAt,
+      modifiedTime: resource.updatedAt,
+    },
+  };
+}
+export default async function ResourceArticlePage({
+  params,
+}: PageProps<"/resources/[slug]">) {
+  const { slug } = await params;
+  const locale = await getInterfaceLocale();
+  const c = pickLocaleCopy(copy, locale);
+  const resource = getResource(slug);
+  if (!resource) notFound();
+  const related = resource.related
+    .map(getResource)
+    .filter((item) => item !== undefined);
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: resource.title,
+    description: resource.description,
+    datePublished: resource.publishedAt,
+    dateModified: resource.updatedAt,
+    author: { "@type": "Organization", name: resource.author },
+    publisher: { "@type": "Organization", name: "Global Speaker" },
+    inLanguage:
+      resource.language === "french"
+        ? "fr"
+        : resource.language === "spanish"
+          ? "es"
+          : "en",
+    mainEntityOfPage: `${siteConfig.siteUrl}/resources/${resource.slug}`,
+  };
+  return (
+    <article className={`article article--${resource.accent}`}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+        }}
+      />
+      <header className="article-header">
+        <div className="container article-header__grid">
+          <div>
+            <Link className="article-back" href="/resources">
+              ← {c.all}
+            </Link>
+            <p className="eyebrow">
+              {resource.languageLabel} · {resource.category}
+            </p>
+            <h1>{resource.title}</h1>
+            <p className="article-header__subtitle">{resource.subtitle}</p>
+          </div>
+          <div className="article-header__aside">
+            <ResourceCover
+              resource={resource}
+              className="article-header__cover"
+            />
+            <dl>
+              <div>
+                <dt>{c.reading}</dt>
+                <dd>{resource.readingTime}</dd>
+              </div>
+              <div>
+                <dt>{c.level}</dt>
+                <dd>{resource.difficulty}</dd>
+              </div>
+              <div>
+                <dt>{c.topic}</dt>
+                <dd>{resource.category}</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </header>
+      <div className="container article-layout">
+        <aside className="article-rail">
+          <span>{c.inIdea}</span>
+          {resource.sections.map((section, index) => (
+            <a key={section.heading} href={`#section-${index + 1}`}>
+              {String(index + 1).padStart(2, "0")} {section.heading}
+            </a>
+          ))}
+        </aside>
+        <div className="article-content">
+          <p className="article-intro">{resource.description}</p>
+          {resource.sections.map((section, index) => (
+            <section id={`section-${index + 1}`} key={section.heading}>
+              <span className="article-section-number">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h2>{section.heading}</h2>
+              <p>{section.body}</p>
+              {section.examples ? (
+                <div className="example-list">
+                  {section.examples.map((example) => (
+                    <p key={example}>{example}</p>
+                  ))}
+                </div>
+              ) : null}
+            </section>
+          ))}
+          <section className="your-turn">
+            <p className="eyebrow">{c.turn}</p>
+            <h2>{c.turnTitle}</h2>
+            {resource.exercise.map((prompt) => (
+              <p key={prompt}>{prompt}</p>
+            ))}
+          </section>
+          <section className="article-map-cta">
+            <div>
+              <p className="eyebrow">{c.personal}</p>
+              <h2>{c.mapTitle}</h2>
+              <p>{c.mapCopy}</p>
+            </div>
+            <ButtonLink href="/language-map">{c.add}</ButtonLink>
+          </section>
+        </div>
+      </div>
+      {related.length ? (
+        <section className="section related-resources">
+          <div className="container">
+            <p className="eyebrow">{c.keep}</p>
+            <h2>{c.related}</h2>
+            <div className="resource-grid">
+              {related.map((item, index) => (
+                <ResourceCard key={item.slug} resource={item} index={index} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+    </article>
+  );
+}

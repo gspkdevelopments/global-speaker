@@ -1,6 +1,15 @@
 import type { InterfaceLocale } from "@/lib/interface-locale";
+import { pickLocaleCopy, type WithEnglish } from "@/lib/locale-copy";
 
-export const ui = {
+type UiCopy = {
+  learn: string; professional: string; method: string; resources: string; culture: string; about: string;
+  languageMap: string; locations: string; back: string; level: string; environment: string; studyTime: string;
+  lessons: string; connectedLessons: string; explore: string; curriculum: string; allResources: string;
+  previous: string; next: string; continue: string; overview: string; language: string; availableNow: string;
+  communicationNeeds: string; buildMap: string; practiceTeacher: string;
+};
+
+export const ui: WithEnglish<UiCopy> = {
   en: {
     learn: "Learn", professional: "Professional", method: "Method", resources: "Resources", culture: "Culture", about: "About",
     languageMap: "Language Map", locations: "Locations", back: "Back", level: "Level", environment: "Environment", studyTime: "Study time",
@@ -22,6 +31,6 @@ export const ui = {
     previous: "Précédent", next: "Suivant", continue: "Continuer", overview: "Vue d’ensemble", language: "Langue", availableNow: "Disponible maintenant",
     communicationNeeds: "Besoins de communication", buildMap: "Créer ma carte linguistique", practiceTeacher: "Pratiquez ceci avec un professeur",
   },
-} as const satisfies Record<InterfaceLocale, Record<string, string>>;
+};
 
-export function t(locale: InterfaceLocale) { return ui[locale]; }
+export function t(locale: InterfaceLocale) { return pickLocaleCopy(ui, locale); }

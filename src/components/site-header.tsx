@@ -4,6 +4,7 @@ import Link from "next/link";
 import { DesktopNav } from "@/components/desktop-nav";
 import { useInterfaceLocale } from "@/components/interface-locale";
 import { MobileNav } from "@/components/mobile-nav";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
 const startLabels = { en: "Start learning", es: "Empezar", fr: "Commencer" } as const;
 const homeLabels = { en: "Global Speaker home", es: "Inicio de Global Speaker", fr: "Accueil Global Speaker" } as const;
@@ -14,7 +15,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="container site-header__inner">
-        <Link className="wordmark" href="/" aria-label={homeLabels[locale]}>
+        <Link className="wordmark" href="/" aria-label={pickLocaleCopy(homeLabels, locale)}>
           <span className="wordmark__mark" aria-hidden="true">G/S</span>
           <span>Global Speaker</span>
         </Link>
@@ -28,7 +29,7 @@ export function SiteHeader() {
               </span>
             ))}
           </div>
-          <Link className="nav-cta" href="/language-map">{startLabels[locale]} <span aria-hidden="true">↗</span></Link>
+          <Link className="nav-cta" href="/language-map">{pickLocaleCopy(startLabels, locale)} <span aria-hidden="true">↗</span></Link>
         </div>
         <MobileNav />
       </div>

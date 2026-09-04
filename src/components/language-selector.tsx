@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useInterfaceLocale } from "@/components/interface-locale";
 import { languages, type LanguageKey } from "@/content/site";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
 const lifeAreas = ["home", "work", "people", "travel", "interests", "culture"] as const;
 const labels = {
@@ -15,7 +16,7 @@ const labels = {
 export function LanguageSelector() {
   const [selected, setSelected] = useState<LanguageKey>("english");
   const { locale } = useInterfaceLocale();
-  const t = labels[locale];
+  const t = pickLocaleCopy(labels, locale);
   const language = languages.find((item) => item.key === selected) ?? languages[0];
 
   return (
