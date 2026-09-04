@@ -10,6 +10,7 @@ import { MethodExample, MethodSequence } from "@/components/method-sequence";
 import { ButtonLink, CTASection, SectionHeading } from "@/components/ui";
 import { languages, professionalPaths } from "@/content/site";
 import { resources } from "@/content/resources";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
 const copy = {
   en: {
@@ -51,7 +52,7 @@ const goalReasons = ["work", "travel", "life", "culture"] as const;
 
 export default function HomePage() {
   const { locale } = useInterfaceLocale();
-  const t = copy[locale];
+  const t = pickLocaleCopy(copy, locale);
 
   return (
     <>

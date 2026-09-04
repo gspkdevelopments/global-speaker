@@ -5,6 +5,7 @@ import type { FormEvent, ReactNode } from "react";
 import { useInterfaceLocale } from "@/components/interface-locale";
 import { contactConfig } from "@/config/site";
 import { buildWhatsAppUrl, formatLanguageMapMessage, type LanguageMapData } from "@/lib/language-map";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
 const copy = {
   en: {
@@ -31,7 +32,7 @@ function SummaryItem({ label, children }: { label: string; children: ReactNode }
 
 export function LanguageMapForm() {
   const { locale } = useInterfaceLocale();
-  const c = copy[locale];
+  const c = pickLocaleCopy(copy, locale);
   const [completedMap, setCompletedMap] = useState<LanguageMapData | null>(null);
   const [draftMap, setDraftMap] = useState<LanguageMapData | null>(null);
   const [challengeError, setChallengeError] = useState("");

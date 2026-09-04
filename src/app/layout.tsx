@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/config/site";
 import { getInterfaceLocale } from "@/lib/interface-locale-server";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -47,7 +48,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html lang={locale} className={`${newsreader.variable} ${workSans.variable}`}>
       <body>
         <InterfaceLocaleProvider initialLocale={locale}>
-          <a className="skip-link" href="#main-content">{skipLabels[locale]}</a>
+          <a className="skip-link" href="#main-content">{pickLocaleCopy(skipLabels, locale)}</a>
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }} />
           <SiteHeader />
           <main id="main-content">{children}</main>

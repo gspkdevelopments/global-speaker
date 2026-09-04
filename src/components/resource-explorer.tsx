@@ -4,8 +4,10 @@ import { useMemo, useState } from "react";
 import { ResourceCard } from "@/components/cards";
 import { useInterfaceLocale } from "@/components/interface-locale";
 import type { Resource } from "@/content/resources";
+import { pickLocaleCopy, type WithEnglish } from "@/lib/locale-copy";
 
-const filterDefs = [
+type FilterDef = { key: string } & WithEnglish<string>;
+const filterDefs: FilterDef[] = [
   { key: "All", en: "All", es: "Todo", fr: "Tout" },
   { key: "English", en: "English", es: "Inglés", fr: "Anglais" },
   { key: "Français", en: "Français", es: "Francés", fr: "Français" },
@@ -28,7 +30,7 @@ const copy = {
 
 export function ResourceExplorer({ resources }: { resources: Resource[] }) {
   const { locale } = useInterfaceLocale();
-  const t = copy[locale];
+  const t = pickLocaleCopy(copy, locale);
   const [filter, setFilter] = useState("All");
   const [query, setQuery] = useState("");
   const visible = useMemo(() => {
@@ -47,7 +49,7 @@ export function ResourceExplorer({ resources }: { resources: Resource[] }) {
         <div><span aria-hidden="true">⌕</span><input id="resource-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.placeholder} /></div>
       </div>
       <div className="filter-row" aria-label={t.filterLabel}>
-        {filterDefs.map((item) => <button type="button" className={filter === item.key ? "is-active" : ""} aria-pressed={filter === item.key} onClick={() => setFilter(item.key)} key={item.key}>{item[locale]}</button>)}
+        {filterDefs.map((item) => <button type="button" className={filter === item.key ? "is-active" : ""} aria-pressed={filter === item.key} onClick={() => setFilter(item.key)} key={item.key}>{pickLocaleCopy(item, locale)}</button>)}
       </div>
       <p className="filter-row__hint" aria-hidden="true">{t.swipe}</p>
       <p className="results-count" aria-live="polite">{visible.length} {visible.length === 1 ? t.singular : t.plural}</p>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useInterfaceLocale } from "@/components/interface-locale";
 import { contactConfig } from "@/config/site";
 import { buildWhatsAppUrl } from "@/lib/language-map";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
 const copy = {
   en: { statement: <>Speak more<br />of the world.</>, learn: "Learn", explore: "Explore", begin: "Begin", method: "The method", professional: "Professional paths", resources: "Resources", culture: "Culture", about: "About", map: "Language Map", email: "Email us", bottom: "Language begins with your life.", location: "Based in the Riviera Maya · Open to the world", whatsapp: "Hi! I'd like to learn more about Global Speaker." },
@@ -13,7 +14,7 @@ const copy = {
 
 export function SiteFooter() {
   const { locale } = useInterfaceLocale();
-  const t = copy[locale];
+  const t = pickLocaleCopy(copy, locale);
   const directWhatsappUrl = buildWhatsAppUrl(contactConfig.whatsappNumber, t.whatsapp);
   return (
     <footer className="site-footer">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useInterfaceLocale } from "@/components/interface-locale";
 import { lifeEnvironments } from "@/content/site";
+import { pickLocaleCopy } from "@/lib/locale-copy";
 
 const languageLinks = [
   { key: "english", label: "English" },
@@ -53,7 +54,7 @@ const translations = {
 export function LifeEnvironmentGrid() {
   const [openIndex, setOpenIndex] = useState<number | null>(1);
   const { locale } = useInterfaceLocale();
-  const t = translations[locale];
+  const t = pickLocaleCopy(translations, locale);
 
   return (
     <div className="life-grid">
