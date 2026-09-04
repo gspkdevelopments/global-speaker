@@ -262,6 +262,56 @@ Some multilingual people worry this means they're being inconsistent or inauthen
 
 If a language you're learning feels stiff or distant, that's often not a grammar problem — it's a sign the language hasn't yet been attached to anything personal. Deliberately using it for things you actually care about — a real hobby, a real relationship, a real opinion — tends to loosen that stiffness faster than more drills do. The goal isn't to sound like a native speaker on day one. It's to give the language somewhere real to live in your life, so a version of you has a reason to show up in it.`,
   },
+  {
+    slug: "foreign-language-effect-decisions",
+    title: "You Make Different Decisions in a Foreign Language — Here's the Research",
+    description:
+      "A University of Chicago research program found that thinking in a foreign language changes what people are willing to risk, and even what they consider morally acceptable. It's one of the stranger, better-documented findings in bilingualism research.",
+    topic: "identity-switching",
+    interfaceLanguage: "en",
+    readingMinutes: 6,
+    updatedAt: "2026-09-04",
+    body: `Most conversations about how a foreign language changes you focus on personality — feeling bolder in French, warmer in Spanish. There's a separate, more measurable finding that gets less attention: the language you're thinking in can change the actual decisions you make, in ways researchers can reproduce in a lab.
+
+## The experiment that started it
+
+Psychologist Boaz Keysar and his team at the University of Chicago ran a version of the classic framing experiment — the kind where identical information described as a "gain" versus a "loss" leads people to make different choices, even though the math is the same. When the choice was presented in participants' native language, they showed the usual bias: risk-averse when a gain was framed, risk-seeking when a loss was framed. When the exact same choice was presented in a language they had learned later in life, that bias largely disappeared. People became more consistent, not less, when using a language that wasn't their first.
+
+## It goes further than money
+
+The same research group extended the idea to moral reasoning, using variations of the classic "trolley problem" — a scenario asking whether it's acceptable to sacrifice one life to save several others. People answering in a foreign language were substantially more willing to accept the utilitarian, five-lives-over-one choice than people answering in their native tongue. The leading explanation isn't that a foreign language makes people more logical in some general sense — it's that it creates emotional distance. A native language is soaked in the emotional associations of childhood; a language learned later, often in a classroom, carries less of that emotional weight, so decisions made in it feel less personal and more calculated.
+
+## What this actually means for you
+
+This isn't a call to make every hard decision in your second language, and it isn't evidence that a foreign language makes you a better or worse person. It's evidence that the language you're thinking in is not a neutral container for your decisions — it's part of how the decision gets made. If you've ever noticed that a difficult conversation feels more manageable in a language that isn't your first, or that an argument that would wreck you in your native tongue feels survivable in another one, this research suggests you're not imagining the distance. You're using it, whether you meant to or not.`,
+  },
+  {
+    slug: "bilingual-brain-myth-and-evidence",
+    title: "What the 'Bilingual Brain' Research Actually Shows (and Doesn't)",
+    description:
+      "The idea that speaking two languages gives you a general cognitive upgrade is one of the most repeated claims about bilingualism — and one of the most contested inside the research itself. Here's an honest look at where the evidence actually stands.",
+    topic: "learning-science",
+    interfaceLanguage: "en",
+    readingMinutes: 7,
+    updatedAt: "2026-09-04",
+    body: `If you've heard that speaking two languages sharpens your brain, delays cognitive decline, and makes you generally better at focusing and multitasking, you've heard a real research claim — one that a growing number of researchers now think was overstated, and possibly wrong in its strongest form.
+
+## Where the claim came from
+
+The idea traces back largely to work by psychologist Ellen Bialystok and colleagues, who found that bilingual children and adults sometimes outperformed monolinguals on tasks measuring "executive function" — the mental skills involved in ignoring distractions, switching between tasks, and holding conflicting information in mind. The theory made intuitive sense: constantly managing two languages, suppressing one while using the other, looked like a built-in daily workout for exactly those mental muscles. For a while, this became one of the most widely repeated facts about bilingualism in popular science writing.
+
+## Why the field started pushing back
+
+Psychologist Kenneth Paap and others have spent over a decade trying to replicate the strongest versions of this finding, with results that often didn't hold up. A 2023 book-length review of the evidence argued that, once you account for publication bias and inconsistent testing methods, the data doesn't support a general bilingual advantage in executive function distinguishable from no advantage at all. Meta-analyses on the topic have produced genuinely mixed results — some find effects only in specific tasks or age groups, others find nothing once study quality is controlled for. This is a live, unresolved scientific debate, not a settled question with one side clearly winning.
+
+## What's actually well-supported
+
+None of this means bilingualism does nothing to the brain — the debate is specifically about whether it produces broad, general-purpose cognitive gains that transfer to unrelated tasks. What's much better supported: bilingual children and adults often show enhanced metalinguistic awareness (the ability to think consciously about how language itself works), and the social and communicative advantages of navigating two languages are well documented, independent of any executive-function debate. The honest version of the story isn't "bilingualism makes you smarter." It's "bilingualism reliably changes your relationship with language itself — the broader claims about your brain in general are still being argued over by the people who study it."
+
+## Why this matters more than it sounds
+
+It's tempting to want a scientific reason to justify time spent learning a language beyond "I wanted to and I enjoyed it." But that reason doesn't need to exist for the effort to be worth it. Being skeptical of the oversold version of bilingual-brain research isn't a letdown — it's a small, useful exercise in the exact kind of self-discovery this whole pillar is about: learning to tell the difference between a finding that's real and one that just sounds good repeated often enough.`,
+  },
 ];
 
 export function getPolyglotArticles(topic?: PolyglotTopic) {
