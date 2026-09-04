@@ -64,6 +64,111 @@ A quiet habit that rarely gets mentioned: narrating your own day in the language
 Maybe the biggest shift: languages that get maintained for decades are usually tied to a person, a place, a piece of media, a version of yourself the learner likes being. Grammar rules fade. A reason to keep showing up doesn't. That's why the most useful early question isn't "how do I learn this language" — it's "what do I want this language to connect me to."`,
   },
   {
+    slug: "spanish-hiding-in-your-english",
+    title: "The Spanish You Already Speak Is Hiding in Your English",
+    description:
+      "How much English a Spanish speaker already half-knows, and where that same familiarity quietly gets in the way — especially useful if you're using English with travelers and expats day to day.",
+    topic: "language-transfer",
+    interfaceLanguage: "en",
+    relatedLanguagePairs: [{ from: "spanish", to: "english" }],
+    readingMinutes: 6,
+    updatedAt: "2026-09-04",
+    body: `If your daily English comes from checking guests in, answering messages, or chatting with travelers, you already have a bigger working vocabulary than you probably give yourself credit for — a lot of it borrowed straight from Spanish, whether you notice it or not.
+
+## The overlap you're already using
+
+English absorbed an enormous amount of vocabulary from Latin and French, which means a huge share of its more formal and abstract words look almost identical to Spanish: *información/information*, *reservación/reservation*, *necesario/necessary*, *posible/possible*. This is why reading a hotel email or a booking confirmation in English often feels more manageable than a casual conversation — formal English leans on exactly the vocabulary Spanish already gave you.
+
+## Where it quietly works against you
+
+The overlap thins out fast in the everyday, informal register — the words you need most when actually talking to someone. *Realizar* doesn't mean "to realize" (it means to carry out or accomplish); *actualmente* doesn't mean "actually" (it means "currently"); *embarazada* is nowhere near "embarrassed." These aren't obscure traps — they're exactly the kind of word a confident Spanish speaker reaches for automatically, because the cognate feels so certain.
+
+## Why this matters more in spoken English than written
+
+In writing, you have a second to catch yourself. In a live conversation with a guest or a stranger, the cognate comes out before you've had time to check it — and English speakers are often too polite to correct it, so the mistake quietly survives for years. The fix isn't avoiding cognates; most of them are genuinely correct and useful. It's building a short mental list of the handful that betray you most — *realizar*, *actualmente*, *embarazada*, *sensible* — so your brain flags them the moment they're about to come out, instead of trusting the resemblance blindly.`,
+  },
+  {
+    slug: "whatsapp-language-habit",
+    title: "The WhatsApp Language Habit: Turning Your Daily Messages into Practice",
+    description:
+      "You're already texting in the language you're learning more than you realize. Here's how to turn that into a free, low-effort practice system without making your phone feel like homework.",
+    topic: "tools",
+    interfaceLanguage: "en",
+    readingMinutes: 5,
+    updatedAt: "2026-09-04",
+    body: `Most language apps ask you to carve out fifteen minutes you don't have. WhatsApp is already open forty times a day. The habit that actually survives long-term is the one that rides on top of something you were going to do anyway — and for most people today, that something is messaging.
+
+## Read before you translate
+
+When a message comes in in the language you're learning, resist the reflex to translate it word by word in your head. Read it once for the gist, guess at anything unclear from context, and only look something up if the meaning genuinely doesn't land. This single habit — tolerating a little uncertainty instead of stopping for every word — is worth more than most vocabulary apps combined.
+
+## Write the reply twice
+
+Before sending a reply, write a rough version, then rewrite it once, slightly better. You're not aiming for perfect — you're aiming for the small rep of noticing your first instinct and improving on it, which is exactly the muscle that makes real-time conversation easier later.
+
+## Save what almost tripped you up
+
+Keep one running note — in your phone, wherever's easiest — for phrases you had to think about before sending, or ones a friend used that you'd never have written yourself. Not a vocabulary list to memorize later, just a record of real friction. Reading it back once a week does more than most flashcard decks, because every line came from something that actually happened to you.
+
+## Let voice notes do double duty
+
+If you send voice notes, that's free speaking practice you're already doing. Occasionally re-record one before sending — not for perfection, just to notice the gap between your first take and your second. That gap is where progress actually lives.`,
+  },
+  {
+    slug: "where-language-learners-meet",
+    title: "Where Do Language Learners Actually Meet?",
+    description:
+      "A practical map of where real language interaction happens in a place like Tulum — cafés, coworkings, group chats, and the communities that turn practice into something social.",
+    topic: "community",
+    interfaceLanguage: "en",
+    readingMinutes: 5,
+    updatedAt: "2026-09-04",
+    body: `Studying alone gets you vocabulary. Talking to people gets you a language. The two aren't in competition, but most learners heavily overinvest in the first because it's easier to schedule — you don't need anyone else's calendar to open an app.
+
+## The obvious places, used the wrong way
+
+Cafés, coworkings, and community events are the usual advice, but most people walk in with no plan beyond "meet people," which rarely produces a real conversation. It works much better with a small, specific reason to talk — asking about a menu item, a laptop sticker, a book someone's reading. The place doesn't create the interaction; a genuine, small question does.
+
+## Group chats are underrated real estate
+
+A WhatsApp group built around a shared goal — learning a language, living in the same town, doing the same activity — is a low-pressure place to practice writing, ask a quick question, or just be around the language passively. It's not a replacement for speaking practice, but it's a steady drip of exposure that costs nothing and fits into dead time during the day.
+
+## Look for shared tasks, not just shared interests
+
+The strongest language friendships often come from doing something together, not just talking about a topic — a class, a sport, a volunteer project, a running group. Shared tasks create natural, repeated reasons to talk, and repetition is what turns a stranger into someone you actually practice with.
+
+## Start with proximity you already have
+
+Before looking for a formal exchange partner, look at who's already around you — neighbors, coworkers, people at the gym — and default to using the language you're learning with them, even briefly. It feels more vulnerable than a structured meetup, but it's usually the fastest way to build a real, ongoing connection instead of a one-time practice session.`,
+  },
+  {
+    slug: "day-language-stops-feeling-like-a-subject",
+    title: "The Day a Language Stops Feeling Like a Subject",
+    description:
+      "There's a recognizable turning point where a language quietly stops being something you study and becomes something you use to get on with your life. Here's what usually leads up to it.",
+    topic: "stories",
+    interfaceLanguage: "en",
+    readingMinutes: 5,
+    updatedAt: "2026-09-04",
+    body: `Ask people who've become fluent in something and most of them can point to a rough moment when the language stopped being a school subject and started being just... the way they got things done. It rarely comes from a lesson. It usually comes from needing something.
+
+## It starts with an unavoidable need
+
+The shift tends to happen around a problem that can't wait for a textbook: explaining a symptom to a doctor, arguing about a bill, comforting someone, negotiating a price. In the moment, there's no time to think in translations — you just have to produce something, however imperfect, and it works. That single successful, urgent exchange often does more than months of structured study, because it proves the language is usable under pressure, not just on a worksheet.
+
+## The vocabulary starts arriving out of order
+
+Textbooks teach in a tidy order — greetings, numbers, family, food. Real fluency arrives out of order and slightly ugly: the word for a specific tool at work, a phrase your neighbor always says, the exact way your partner's mother scolds someone lovingly. This vocabulary sticks harder than anything from a course, because it came attached to a real moment instead of a unit test.
+
+## The internal translator gets quieter
+
+At some point, without noticing exactly when, the pause before speaking gets shorter. You're not mentally composing a sentence in your first language and converting it anymore — you're reaching more directly for the thought in the new one. It's rarely dramatic. It's usually only visible in hindsight, when you realize a conversation just happened and you can't remember translating any of it.
+
+## What actually causes the shift
+
+Not talent, and not more hours of study than everyone else. The common thread is simply being placed in enough real situations where the language was the only tool available — no subtitles, no dictionary, no way out except to try. If a language still feels like a subject, the fastest way to change that isn't more lessons. It's fewer safety nets.`,
+  },
+  {
     slug: "spanish-to-french-lexical-overlap",
     title: "What Spanish Already Gave You for French",
     description:
